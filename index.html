@@ -250,11 +250,13 @@
                             <h3 class="font-serif text-2xl font-bold text-navy-950 mb-2">Register Your Interest</h3>
                             <p class="text-slate-500 text-sm">Leave your details and we'll reach out via your preferred contact method.</p>
                         </div>
-                        <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-4">
-                            <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
-                            <input type="hidden" name="subject" value="New Homeowner Enquiry — Agent Navigator">
-                            <input type="hidden" name="from_name" value="Agent Navigator Website">
-                            <input type="checkbox" name="botcheck" style="display:none;">
+                        <form action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
+                        <input type="text" name="name" required>
+                        <input type="email" name="email" required>
+                        <textarea name="message" required></textarea>
+                        <button type="submit">Submit Form</button>
+                        </form>
                             <input type="hidden" name="h-captcha-response" id="h-captcha-response">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
