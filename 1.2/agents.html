@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Estate Agents | Agent Navigator</title>
+    <meta name="description" content="Partner with Agent Navigator to receive high-quality, verified seller leads across London and Kent. Simple flat-fee pricing, no contracts.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        teal: {
+                            50:'#f0f9ff',100:'#e0f2fe',200:'#bae6fd',300:'#7dd3fc',
+                            400:'#38bdf8',500:'#0ea5e9',600:'#0284c7',700:'#0369a1',
+                            800:'#075985',900:'#0c4a6e',950:'#082f49',
+                        },
+                        navy:{800:'#1e3a8a',900:'#172554',950:'#0f172a'}
+                    },
+                    fontFamily:{serif:['Playfair Display','serif'],sans:['Inter','sans-serif']}
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text{background:linear-gradient(135deg,#0c4a6e 0%,#075985 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 3px rgba(14,165,233,0.1);}
+    </style>
+</head>
+<body class="font-sans text-slate-800 bg-white antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/90 backdrop-blur-md border-b border-slate-100 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <img src="https://github.com/rickyjaycosta/agentnavigator/blob/main/logo_16x9_blue_png.png?raw=true" alt="Agent Navigator" style="height:110px;width:auto;object-fit:contain;">
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Home</a>
+                    <a href="index.html#how-it-works" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">How It Works</a>
+                    <a href="#" class="text-teal-800 font-semibold">For Estate Agents</a>
+                    <a href="#partner-form" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all">Become a Partner</a>
+                </div>
+                <button class="md:hidden p-2 text-slate-600" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+            <div class="px-4 py-4 space-y-3">
+                <a href="index.html" class="block text-slate-600 font-medium py-2">Home</a>
+                <a href="index.html#how-it-works" class="block text-slate-600 font-medium py-2">How It Works</a>
+                <a href="#" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
+                <a href="#partner-form" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Become a Partner</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 bg-slate-900 text-white overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 left-0 w-full h-full" style="background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:40px 40px;"></div>
+        </div>
+        <div class="absolute top-20 right-0 w-96 h-96 bg-teal-600 rounded-full blur-3xl opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-blue-600 rounded-full blur-3xl opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 bg-white/10 text-teal-300 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i data-lucide="briefcase" class="w-4 h-4"></i>
+                    Partner Programme — London &amp; Kent
+                </div>
+                <h1 class="font-serif text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Verified Valuation Leads for <span class="text-teal-400">Top Performing Estate Agents</span>
+                </h1>
+                <p class="text-xl text-slate-300 leading-relaxed mb-8 max-w-2xl">
+                    Receive qualified, ID-checked seller leads matched to your area across London and Kent. Simple flat-fee pricing. No contracts, no hidden costs.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#partner-form" class="inline-flex items-center justify-center bg-white text-navy-950 hover:bg-teal-50 text-lg font-semibold px-8 py-4 rounded-full transition-all transform hover:scale-105 shadow-xl">
+                        Become a Partner Agent
+                        <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                    </a>
+                    <a href="#benefits" class="inline-flex items-center justify-center bg-transparent text-white border-2 border-white/30 hover:border-white/60 text-lg font-semibold px-8 py-4 rounded-full transition-all">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Facts -->
+    <section class="py-16 bg-white border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <p class="font-serif text-2xl font-bold text-teal-800 mb-2">Verified</p>
+                    <p class="text-slate-500 text-sm">Ownership confirmed before you receive the lead</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl font-bold text-teal-800 mb-2">London-Wide</p>
+                    <p class="text-slate-500 text-sm">Matched to your specific operating area</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl font-bold text-teal-800 mb-2">Flat Fee</p>
+                    <p class="text-slate-500 text-sm">Pay per lead, no hidden fees or subscriptions</p>
+                </div>
+                <div>
+                    <p class="font-serif text-2xl font-bold text-teal-800 mb-2">Done For You</p>
+                    <p class="text-slate-500 text-sm">Qualified leads delivered directly to you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Why Partner With Agent Navigator?</h2>
+                <p class="text-lg text-slate-600">We do the groundwork so you can focus on winning instructions.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="shield-check" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Verified Homeowners</h3>
+                    <p class="text-slate-600 leading-relaxed">Every lead is ID-checked and ownership-confirmed before it reaches you. We verify via photo ID, proof of address, and Land Registry — so you're not wasting time on unqualified enquiries.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="map-pin" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Local Area Matching</h3>
+                    <p class="text-slate-600 leading-relaxed">We match leads to your specific operating areas across London and Kent. You only receive enquiries relevant to where you work and have proven local knowledge.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="pound-sterling" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Simple Flat-Fee Pricing</h3>
+                    <p class="text-slate-600 leading-relaxed">No percentage cuts. No monthly retainers. You pay a flat fee per qualified lead, tiered by property value. Clear, predictable, and fair.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="filter" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Motivated Sellers</h3>
+                    <p class="text-slate-600 leading-relaxed">Homeowners that come through Agent Navigator have actively sought a valuation. These aren't cold contacts — they're confirmed sellers ready to have a conversation.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="file-text" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Full Lead Details</h3>
+                    <p class="text-slate-600 leading-relaxed">Each lead comes with the homeowner's contact details, property address, type, size, and preferred contact method — everything you need to make a strong first impression.</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-teal-50 rounded-lg flex items-center justify-center text-teal-700 mb-6">
+                        <i data-lucide="headphones" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Dedicated Support</h3>
+                    <p class="text-slate-600 leading-relaxed">As a partner agent you'll deal directly with us — not a call centre. Any questions, issues, or feedback are handled personally and promptly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works for Agents -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">How It Works for Agents</h2>
+                <p class="text-lg text-slate-600">Three simple steps to start receiving qualified leads.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 mx-auto">1</div>
+                    <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700">
+                        <i data-lucide="clipboard-check" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Apply to Partner</h3>
+                    <p class="text-slate-600 leading-relaxed">Complete the short form below. We'll be in touch to verify your credentials, confirm your areas, agree pricing, and get you set up.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 mx-auto">2</div>
+                    <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700">
+                        <i data-lucide="settings" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">We Agree Your Areas</h3>
+                    <p class="text-slate-600 leading-relaxed">Tell us where you operate and what property types you specialise in. We match leads to your profile from that point forward.</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white text-2xl font-bold mb-6 mx-auto">3</div>
+                    <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-4 text-teal-700">
+                        <i data-lucide="handshake" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Receive &amp; Convert</h3>
+                    <p class="text-slate-600 leading-relaxed">We send you verified leads with full property details. You contact the homeowner, book the valuation, and win the instruction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-lg text-slate-600">Flat fee per qualified lead. Tiered by property value. No surprises.</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center">
+                    <p class="text-slate-500 text-sm font-medium mb-2">Up to £500k</p>
+                    <p class="font-serif text-3xl font-bold text-teal-800 mb-1">£150</p>
+                    <p class="text-slate-400 text-xs">per qualified lead</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center">
+                    <p class="text-slate-500 text-sm font-medium mb-2">£500k – £750k</p>
+                    <p class="font-serif text-3xl font-bold text-teal-800 mb-1">£250</p>
+                    <p class="text-slate-400 text-xs">per qualified lead</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center">
+                    <p class="text-slate-500 text-sm font-medium mb-2">£750k – £1m</p>
+                    <p class="font-serif text-3xl font-bold text-teal-800 mb-1">£400</p>
+                    <p class="text-slate-400 text-xs">per qualified lead</p>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg border border-teal-200 text-center" style="background:linear-gradient(to bottom,#fff,#f0f9ff);">
+                    <p class="text-slate-500 text-sm font-medium mb-2">£1m+</p>
+                    <p class="font-serif text-3xl font-bold text-teal-800 mb-1">£600</p>
+                    <p class="text-slate-400 text-xs">per qualified lead</p>
+                </div>
+            </div>
+            <p class="text-center text-slate-400 text-sm mt-6">You only pay when you receive a verified, qualified lead. No monthly fees. No contracts.</p>
+        </div>
+    </section>
+
+    <!-- Partner Form -->
+    <section id="partner-form" class="py-24 bg-white">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="font-serif text-4xl font-bold text-navy-950 mb-4">Apply to Become a Partner</h2>
+                <p class="text-lg text-slate-600">Fill in your details and we'll be in touch to get you started.</p>
+            </div>
+            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 md:p-12">
+                <form id="agentForm" onsubmit="handleAgentSubmit(event)" class="space-y-5">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+                    <input type="hidden" name="subject" value="New Agent Partner Application — Agent Navigator">
+                    <input type="hidden" name="from_name" value="Agent Navigator — Agents Page">
+                    <input type="checkbox" name="botcheck" style="display:none;">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
+                        <input type="text" name="name" required placeholder="Jane Smith" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Agency Name *</label>
+                        <input type="text" name="agency_name" required placeholder="Smith & Co Estate Agents" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Email Address *</label>
+                        <input type="email" name="email" required placeholder="jane@smithandco.co.uk" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Phone Number *</label>
+                        <input type="tel" name="phone" required placeholder="07700 900000" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Areas You Cover *</label>
+                        <input type="text" name="areas" required placeholder="e.g. East London, Bromley, Maidstone" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Business Type *</label>
+                        <select name="business_type" required class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm bg-white transition-all">
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="Limited Company">Limited Company</option>
+                            <option value="Sole Trader">Sole Trader</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1">Anything else you'd like us to know?</label>
+                        <textarea name="message" rows="3" placeholder="Property types you specialise in, typical price range, etc." class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all resize-none"></textarea>
+                    </div>
+                    <button type="submit" id="agentSubmitBtn" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center gap-2 mt-2">
+                        <span id="agentSubmitText">Submit Application</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5" id="agentSubmitIcon"></i>
+                    </button>
+                    <p id="agentFormError" class="text-red-500 text-xs text-center hidden">Something went wrong. Please email us at ricky@agentnavigator.co.uk</p>
+                    <p class="text-xs text-slate-400 text-center pt-1">
+                        🔒 Your information is secure. By submitting you agree to our
+                        <button type="button" onclick="openModal('termsModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Terms of Service</button>
+                        and
+                        <button type="button" onclick="openModal('privacyModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Privacy Policy</button>.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modals (same as index) -->
+    <div id="termsModal" onclick="closeModal('termsModal')" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
+        <div onclick="event.stopPropagation()" style="background:#fff;border-radius:1rem;box-shadow:0 25px 50px rgba(0,0,0,0.25);width:100%;max-width:680px;max-height:85vh;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;border-bottom:1px solid #f1f5f9;flex-shrink:0;">
+                <h2 style="font-size:1.2rem;font-weight:700;color:#0f172a;margin:0;">Terms of Service</h2>
+                <button onclick="closeModal('termsModal')" style="width:2rem;height:2rem;border-radius:50%;border:none;background:none;cursor:pointer;font-size:1.4rem;color:#94a3b8;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">&times;</button>
+            </div>
+            <div style="overflow-y:auto;padding:1.5rem 2rem;font-size:0.875rem;color:#475569;line-height:1.7;flex:1;">
+                <p style="font-size:0.75rem;color:#94a3b8;font-style:italic;margin-bottom:1rem;">Last updated: April 2026 | Agent Navigator Ltd</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">1. About Us</h3>
+                <p style="margin-bottom:1rem;">Agent Navigator Ltd is a company registered in England and Wales. Contact: ricky@agentnavigator.co.uk. We connect homeowners in London and Kent with regulated estate agents.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">2. The Service</h3>
+                <p style="margin-bottom:1rem;">Agent Navigator acts as an introduction platform only. We are not a party to any agreement between a Homeowner and an Agent.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. For Homeowners</h3>
+                <p style="margin-bottom:1rem;">You must be the legal owner of the property, provide accurate information, and be aged 18 or over. Our service is currently free during the launch period. The standard fee of £39 per property applies thereafter.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">4. For Estate Agents</h3>
+                <p style="margin-bottom:1rem;">Agents must enter into a separate Agent Agreement. Fees are charged per qualified introduction as set out in that agreement.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">5. Limitation of Liability</h3>
+                <p style="margin-bottom:1rem;">To the fullest extent permitted by English law, Agent Navigator Ltd shall not be liable for any loss arising from introductions made through the Platform.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">6. Governing Law</h3>
+                <p>These Terms are governed by the laws of England and Wales.</p>
+            </div>
+            <div style="padding:1rem 2rem;border-top:1px solid #f1f5f9;flex-shrink:0;">
+                <button onclick="closeModal('termsModal')" style="width:100%;background:#0f766e;color:#fff;font-weight:600;font-size:0.875rem;padding:0.75rem;border:none;border-radius:0.5rem;cursor:pointer;" onmouseover="this.style.background='#115e59'" onmouseout="this.style.background='#0f766e'">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="privacyModal" onclick="closeModal('privacyModal')" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
+        <div onclick="event.stopPropagation()" style="background:#fff;border-radius:1rem;box-shadow:0 25px 50px rgba(0,0,0,0.25);width:100%;max-width:680px;max-height:85vh;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;border-bottom:1px solid #f1f5f9;flex-shrink:0;">
+                <h2 style="font-size:1.2rem;font-weight:700;color:#0f172a;margin:0;">Privacy Policy</h2>
+                <button onclick="closeModal('privacyModal')" style="width:2rem;height:2rem;border-radius:50%;border:none;background:none;cursor:pointer;font-size:1.4rem;color:#94a3b8;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">&times;</button>
+            </div>
+            <div style="overflow-y:auto;padding:1.5rem 2rem;font-size:0.875rem;color:#475569;line-height:1.7;flex:1;">
+                <p style="font-size:0.75rem;color:#94a3b8;font-style:italic;margin-bottom:1rem;">Last updated: April 2026 | Agent Navigator Ltd</p>
+                <p style="margin-bottom:1rem;">Agent Navigator Ltd is committed to protecting your personal data in accordance with UK GDPR and the Data Protection Act 2018.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">1. Who We Are</h3>
+                <p style="margin-bottom:1rem;">Agent Navigator Ltd is the data controller. Contact: ricky@agentnavigator.co.uk. ICO Registration in progress.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">2. What Data We Collect</h3>
+                <p style="margin-bottom:0.5rem;"><strong>Stage 1 (website form):</strong> Name, email, phone, preferred contact method.</p>
+                <p style="margin-bottom:1rem;"><strong>Stage 2 (follow-up):</strong> Property address, type, bedrooms, value, proof of ownership, proof of address, photo ID.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. How We Use Your Data</h3>
+                <p style="margin-bottom:1rem;">To contact you, verify your property ownership, and match you with a local estate agent in London or Kent.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">4. Who We Share Data With</h3>
+                <p style="margin-bottom:1rem;">Estate agents, Web3Forms, Dropbox Sign, Google Workspace, and regulatory authorities if required. We do not sell personal data.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">5. Your Rights</h3>
+                <p>Contact ricky@agentnavigator.co.uk to exercise your rights. You may also complain to the ICO at ico.org.uk.</p>
+            </div>
+            <div style="padding:1rem 2rem;border-top:1px solid #f1f5f9;flex-shrink:0;">
+                <button onclick="closeModal('privacyModal')" style="width:100%;background:#0f766e;color:#fff;font-weight:600;font-size:0.875rem;padding:0.75rem;border:none;border-radius:0.5rem;cursor:pointer;" onmouseover="this.style.background='#115e59'" onmouseout="this.style.background='#0f766e'">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookieModal" onclick="closeModal('cookieModal')" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
+        <div onclick="event.stopPropagation()" style="background:#fff;border-radius:1rem;box-shadow:0 25px 50px rgba(0,0,0,0.25);width:100%;max-width:680px;max-height:85vh;display:flex;flex-direction:column;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 2rem;border-bottom:1px solid #f1f5f9;flex-shrink:0;">
+                <h2 style="font-size:1.2rem;font-weight:700;color:#0f172a;margin:0;">Cookie Policy</h2>
+                <button onclick="closeModal('cookieModal')" style="width:2rem;height:2rem;border-radius:50%;border:none;background:none;cursor:pointer;font-size:1.4rem;color:#94a3b8;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='none'">&times;</button>
+            </div>
+            <div style="overflow-y:auto;padding:1.5rem 2rem;font-size:0.875rem;color:#475569;line-height:1.7;flex:1;">
+                <p style="font-size:0.75rem;color:#94a3b8;font-style:italic;margin-bottom:1rem;">Last updated: April 2026 | Agent Navigator Ltd</p>
+                <p style="margin-bottom:1rem;">This Cookie Policy explains how Agent Navigator Ltd uses cookies on agentnavigator.co.uk.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">1. Cookies We Use</h3>
+                <p style="margin-bottom:0.5rem;"><strong>Essential:</strong> Necessary for the website to function.</p>
+                <p style="margin-bottom:1rem;"><strong>Third-party:</strong> Web3Forms and Google Fonts may set their own cookies.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">2. What We Do Not Do</h3>
+                <p style="margin-bottom:1rem;">We do not use advertising or tracking cookies and we do not sell data collected via cookies.</p>
+                <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. Contact</h3>
+                <p>Questions? Email <a href="mailto:ricky@agentnavigator.co.uk" style="color:#0f766e;">ricky@agentnavigator.co.uk</a>.</p>
+            </div>
+            <div style="padding:1rem 2rem;border-top:1px solid #f1f5f9;flex-shrink:0;">
+                <button onclick="closeModal('cookieModal')" style="width:100%;background:#0f766e;color:#fff;font-weight:600;font-size:0.875rem;padding:0.75rem;border:none;border-radius:0.5rem;cursor:pointer;" onmouseover="this.style.background='#115e59'" onmouseout="this.style.background='#0f766e'">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)closeSuccessModal()">
+        <div style="background:#fff;border-radius:1rem;padding:2rem;max-width:28rem;width:100%;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.25);">
+            <div style="width:4rem;height:4rem;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+                <i data-lucide="check-circle" style="width:2rem;height:2rem;color:#16a34a;"></i>
+            </div>
+            <h3 class="font-serif" style="font-size:1.5rem;font-weight:700;color:#0f172a;margin-bottom:0.5rem;">Application Received</h3>
+            <p style="color:#475569;margin-bottom:1.5rem;">Thanks for applying. We'll review your details and be in touch shortly to get you set up.</p>
+            <button onclick="closeSuccessModal()" style="width:100%;background:#075985;color:#fff;font-weight:700;padding:0.75rem;border:none;border-radius:0.5rem;cursor:pointer;font-size:0.95rem;">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center mb-4">
+                        <img src="https://github.com/rickyjaycosta/agentnavigator/blob/main/logo_16x9_white_png.png?raw=true" alt="Agent Navigator" style="height:100px;width:auto;object-fit:contain;">
+                    </div>
+                    <p class="text-sm leading-relaxed max-w-sm">Connecting homeowners across London and Kent with top local estate agents. Verified, matched, and no-obligation.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Homeowners</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="index.html#how-it-works" class="hover:text-teal-400 transition-colors">How It Works</a></li>
+                        <li><a href="index.html#valuation" class="hover:text-teal-400 transition-colors">Get Valuation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="agents.html" class="hover:text-teal-400 transition-colors">For Estate Agents</a></li>
+                        <li><a href="mailto:ricky@agentnavigator.co.uk" class="hover:text-teal-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-slate-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <p>&copy; 2026 Agent Navigator. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <div class="flex gap-6">
+                        <button onclick="openModal('privacyModal')" class="hover:text-teal-400 transition-colors bg-transparent border-none cursor-pointer text-slate-400 text-sm">Privacy Policy</button>
+                        <button onclick="openModal('termsModal')" class="hover:text-teal-400 transition-colors bg-transparent border-none cursor-pointer text-slate-400 text-sm">Terms of Service</button>
+                        <button onclick="openModal('cookieModal')" class="hover:text-teal-400 transition-colors bg-transparent border-none cursor-pointer text-slate-400 text-sm">Cookie Policy</button>
+                    </div>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/agentnavigator_/" target="_blank" class="hover:opacity-75 transition">
+                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" style="width:20px;height:20px;filter:invert(1);">
+                        </a>
+                        <a href="https://www.linkedin.com/company/agentnavigator" target="_blank" class="hover:opacity-75 transition">
+                            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg" alt="LinkedIn" style="width:20px;height:20px;filter:invert(1);">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function openModal(id){ var m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
+        function closeModal(id){ var m=document.getElementById(id); m.style.display='none'; document.body.style.overflow=''; }
+        function closeSuccessModal(){ document.getElementById('successModal').style.display='none'; document.body.style.overflow=''; }
+        document.addEventListener('keydown',function(e){ if(e.key==='Escape'){['termsModal','privacyModal','cookieModal'].forEach(closeModal);closeSuccessModal();} });
+
+        async function handleAgentSubmit(event) {
+            event.preventDefault();
+            const btn=document.getElementById('agentSubmitBtn');
+            const text=document.getElementById('agentSubmitText');
+            const icon=document.getElementById('agentSubmitIcon');
+            const error=document.getElementById('agentFormError');
+            btn.disabled=true; text.textContent='Submitting...'; icon.style.display='none'; error.classList.add('hidden');
+            try {
+                const response=await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(event.target)});
+                const data=await response.json();
+                if(data.success){ event.target.reset(); document.getElementById('successModal').style.display='flex'; document.body.style.overflow='hidden'; lucide.createIcons(); }
+                else { throw new Error('Failed'); }
+            } catch(err){ error.classList.remove('hidden'); }
+            finally{ btn.disabled=false; text.textContent='Submit Application'; icon.style.display=''; }
+        }
+
+        window.addEventListener('scroll',function(){ document.getElementById('navbar').classList.toggle('shadow-md',window.scrollY>50); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+            anchor.addEventListener('click',function(e){
+                e.preventDefault();
+                const target=document.querySelector(this.getAttribute('href'));
+                if(target){target.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('mobile-menu').classList.add('hidden');}
+            });
+        });
+    </script>
+</body>
+</html>
