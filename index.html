@@ -38,30 +38,41 @@
     </style>
 </head>
 <body class="font-sans text-slate-800 bg-white antialiased">
-     <!-- Navigation -->
+       <!-- Navigation -->
     <nav class="fixed w-full bg-white/90 backdrop-blur-md border-b border-slate-100 z-50 transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
+
+                <!-- Logo -->
                 <div class="flex items-center">
-                    <img src="https://github.com/rickyjaycosta/agentnavigator/blob/main/logo_16x9_blue_png.png?raw=true" alt="Agent Navigator" style="height:110px;width:auto;object-fit:contain;">
+                    <img src="https://github.com/rickyjaycosta/agentnavigator/blob/main/logo_16x9_blue_png.png?raw=true" alt="Agent Navigator" style="height: 110px; width: auto; object-fit: contain;">
                 </div>
+
+                <!-- Nav Links -->
                 <div class="hidden md:flex items-center gap-8">
-                    <a href="index.html" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Home</a>
-                    <a href="index.html#how-it-works" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">How It Works</a>
-                    <a href="#" class="text-teal-800 font-semibold">For Estate Agents</a>
-                    <a href="#partner-form" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all">Become a Partner</a>
+                    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Home</a>
+                    <a href="#how-it-works" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">How It Works</a>
+                    <a href="#benefits" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Benefits</a>
+                    <a href="#valuation" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        Get My Free Valuation
+                    </a>
                 </div>
+
+                <!-- Mobile Menu Button -->
                 <button class="md:hidden p-2 text-slate-600" onclick="toggleMobileMenu()">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
+
             </div>
         </div>
+
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
             <div class="px-4 py-4 space-y-3">
-                <a href="index.html" class="block text-slate-600 font-medium py-2">Home</a>
-                <a href="index.html#how-it-works" class="block text-slate-600 font-medium py-2">How It Works</a>
-                <a href="#" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
-                <a href="#partner-form" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Become a Partner</a>
+                <a href="#how-it-works" class="block text-slate-600 font-medium py-2">How It Works</a>
+                <a href="#benefits" class="block text-slate-600 font-medium py-2">Benefits</a>
+                <a href="agents.html" class="block text-slate-500 text-sm font-medium py-2">For Estate Agents</a>
+                <a href="#valuation" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Get My Free Valuation</a>
             </div>
         </div>
     </nav>
