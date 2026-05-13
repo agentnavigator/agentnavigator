@@ -13,7 +13,7 @@ if (window.location.pathname.endsWith("index.html")) {
    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
@@ -35,6 +35,30 @@ if (window.location.pathname.endsWith("index.html")) {
     <style>
         .gradient-text{background:linear-gradient(135deg,#0c4a6e 0%,#075985 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
         input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 3px rgba(14,165,233,0.1);}
+        .compass-bg{background:radial-gradient(circle at 75% 20%,rgba(186,230,253,.34),transparent 34%),linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
+        .step-line{background:linear-gradient(90deg,transparent,#0c4a6e,transparent);}
+        .premium-panel{box-shadow:0 30px 80px rgba(15,23,42,.12);}
+        .nav-action{border:1px solid #e2e8f0;border-radius:999px;padding:.65rem 1rem;transition:all .25s ease;}
+        .nav-action:hover{border-color:#0369a1;background:#f0f9ff;color:#075985;}
+        .quick-tile{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+        .quick-tile:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(15,23,42,.1);border-color:#7dd3fc;}
+        .hero-dashboard{animation:dashboardFloat 7s ease-in-out infinite;}
+        .scan-line{animation:scanLine 4s ease-in-out infinite;}
+        .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+        .reveal.is-visible{opacity:1;transform:translateY(0);}
+        .form-step{display:none;}
+        .form-step.active{display:block;animation:stepIn .35s ease both;}
+        .coverage-pin{transition:transform .2s ease,background .2s ease,color .2s ease;}
+        .coverage-pin:hover,.coverage-pin.active{transform:translateY(-3px);background:#075985;color:#fff;}
+        .tool-tab.active{background:#075985;color:#fff;border-color:#075985;}
+        .map-grid{background-image:linear-gradient(rgba(14,165,233,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,.12) 1px,transparent 1px);background-size:34px 34px;}
+        @keyframes dashboardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        @keyframes scanLine{0%,100%{transform:translateX(-18%);opacity:.35}50%{transform:translateX(18%);opacity:.9}}
+        @keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        @media (prefers-reduced-motion:reduce){
+            .hero-dashboard,.scan-line,.reveal,.form-step.active{animation:none;transition:none;}
+            .reveal{opacity:1;transform:none;}
+        }
     </style>
 </head>
 <body class="font-sans text-slate-800 bg-white antialiased">
@@ -46,122 +70,493 @@ if (window.location.pathname.endsWith("index.html")) {
                 <div class="flex items-center">
                     <img src="https://github.com/rickyjaycosta/agentnavigator/blob/main/logo_16x9_blue_png.png?raw=true" alt="Agent Navigator" style="height:110px;width:auto;object-fit:contain;">
                 </div>
-                <div class="hidden md:flex items-center gap-8">
-                    <a href="index.html" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Home</a>
-                    <a href="index.html#how-it-works" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">How It Works</a>
-                    <a href="#" class="text-teal-800 font-semibold">For Estate Agents</a>
-                    <a href="#partner-form" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all">Become a Partner</a>
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="#valuation" class="nav-action text-slate-600 font-semibold text-sm">Get Valuation</a>
+                    <a href="#coverage" class="nav-action text-slate-600 font-semibold text-sm">Check Coverage</a>
+                    <a href="#tools" class="nav-action text-slate-600 font-semibold text-sm">Estimate Value</a>
+                    <a href="#agent-search" class="nav-action text-slate-600 font-semibold text-sm">Find Agents</a>
+                    <a href="agents.html" class="text-teal-800 font-semibold text-sm px-2">For Estate Agents</a>
+                    <a href="#valuation" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all shadow-lg shadow-teal-900/10">Start</a>
                 </div>
-                <button class="md:hidden p-2 text-slate-600" onclick="toggleMobileMenu()">
+                <button class="lg:hidden p-2 text-slate-600" onclick="toggleMobileMenu()" aria-label="Open menu">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100">
             <div class="px-4 py-4 space-y-3">
-                <a href="index.html" class="block text-slate-600 font-medium py-2">Home</a>
-                <a href="index.html#how-it-works" class="block text-slate-600 font-medium py-2">How It Works</a>
-                <a href="#" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
-                <a href="#partner-form" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Become a Partner</a>
+                <a href="#valuation" class="block text-slate-600 font-medium py-2">Get Valuation</a>
+                <a href="#coverage" class="block text-slate-600 font-medium py-2">Check Coverage</a>
+                <a href="#tools" class="block text-slate-600 font-medium py-2">Estimate Value</a>
+                <a href="#agent-search" class="block text-slate-600 font-medium py-2">Find Agents</a>
+                <a href="agents.html" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
+                <a href="#valuation" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Start</a>
             </div>
         </div>
     </nav>
 
 
     <!-- Hero -->
-    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden compass-bg">
+    <section class="relative pt-32 pb-16 lg:pt-36 lg:pb-24 overflow-hidden compass-bg">
         <div class="absolute inset-0 z-0 opacity-30">
             <div class="absolute top-20 right-0 w-96 h-96 bg-teal-100 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl"></div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-8">
+                <div class="space-y-7 reveal">
                     <div class="inline-flex items-center gap-2 bg-teal-50 text-teal-800 px-4 py-2 rounded-full text-sm font-semibold border border-teal-100">
                         <i data-lucide="sparkles" class="w-4 h-4"></i>
-                        Estate Agent Finder — London &amp; Kent
+                        Estate Agent Finder - London &amp; Kent
                     </div>
                     <h1 class="font-serif text-5xl lg:text-6xl font-bold text-navy-950 leading-tight">
-                        Find the right Estate Agent to help sell your home.<br>
-                        <span class="gradient-text">Get Your Free Property Valuation.</span>
+                        Find the right estate agent to help sell your home.<br>
+                        <span class="gradient-text">Get your free property valuation.</span>
                     </h1>
-                    <p class="text-xl text-slate-600 leading-relaxed max-w-lg">
-                        We connect you with a top-rated local estate agent in London and Kent. Get a no-obligation valuation and expert guidance to sell your home.
+                    <p class="text-xl text-slate-600 leading-relaxed max-w-xl">
+                        Tell us what you need, check whether we cover your area, or use the instant tools if you are just curious. No maze of decisions before you can get moving.
                     </p>
-                    <div class="inline-flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-3 rounded-xl text-sm font-semibold">
-                        <i data-lucide="tag" class="w-4 h-4 flex-shrink-0"></i>
-                        <span>Limited Time: Our matching service is currently <strong>free</strong> — standard fee of £39 applies thereafter.</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#valuation" class="inline-flex items-center justify-center bg-teal-800 hover:bg-teal-900 text-white text-lg font-semibold px-8 py-4 rounded-full transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl group">
-                            Get My Free Valuation
-                            <i data-lucide="arrow-right" class="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform"></i>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
+                        <a href="#valuation" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="home" class="w-5 h-5 text-teal-700 mb-3"></i>
+                            <span class="block text-sm font-bold text-navy-950">Get valued</span>
+                            <span class="text-xs text-slate-500">Start now</span>
                         </a>
-                        <button onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})" class="inline-flex items-center justify-center bg-white text-slate-700 border-2 border-slate-200 hover:border-teal-600 text-lg font-semibold px-8 py-4 rounded-full transition-all hover:bg-teal-50">
-                            <i data-lucide="play-circle" class="w-5 h-5 mr-2 text-teal-700"></i>
-                            See How It Works
-                        </button>
+                        <a href="#coverage" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="map" class="w-5 h-5 text-teal-700 mb-3"></i>
+                            <span class="block text-sm font-bold text-navy-950">Check area</span>
+                            <span class="text-xs text-slate-500">Map coverage</span>
+                        </a>
+                        <a href="#tools" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="calculator" class="w-5 h-5 text-teal-700 mb-3"></i>
+                            <span class="block text-sm font-bold text-navy-950">Estimate value</span>
+                            <span class="text-xs text-slate-500">Curious only</span>
+                        </a>
+                        <a href="#agent-search" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="search" class="w-5 h-5 text-teal-700 mb-3"></i>
+                            <span class="block text-sm font-bold text-navy-950">Find agents</span>
+                            <span class="text-xs text-slate-500">By postcode</span>
+                        </a>
                     </div>
-                    <div class="flex flex-wrap items-center gap-3 pt-4">
-                        <div class="flex items-center gap-2 text-teal-700">
-                            <i data-lucide="shield-check" class="w-5 h-5"></i>
-                            <span class="font-semibold">Verified &amp; Secure</span>
+                    <div class="inline-flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-3 rounded-xl text-sm font-semibold">
+                        <i data-lucide="tag" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
+                        <span>Limited time: our matching service is currently <strong>free</strong> - standard fee of &pound;39 applies thereafter.</span>
+                    </div>
+                </div>
+                <div class="relative reveal">
+                    <div class="hero-dashboard bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <div>
+                                <p class="text-xs uppercase text-slate-400 font-bold">Navigator view</p>
+                                <h2 class="font-serif text-2xl font-bold text-navy-950">Verified seller route</h2>
+                            </div>
+                            <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center">
+                                <i data-lucide="radar" class="w-6 h-6 text-teal-700"></i>
+                            </div>
                         </div>
-                        <span class="text-slate-300">|</span>
-                        <div class="flex items-center gap-2 text-teal-700">
-                            <i data-lucide="clock" class="w-5 h-5"></i>
-                            <span class="font-semibold">Fast Response</span>
-                        </div>
-                        <span class="text-slate-300">|</span>
-                        <div class="flex items-center gap-2 text-teal-700">
-                            <i data-lucide="map-pin" class="w-5 h-5"></i>
-                            <span class="font-semibold">London &amp; Kent</span>
+                        <div class="p-6 space-y-5">
+                            <div class="relative map-grid rounded-2xl border border-slate-100 bg-slate-50 overflow-hidden h-72">
+                                <div class="absolute inset-x-10 top-1/2 h-1 bg-teal-700/20 rounded-full scan-line"></div>
+                                <svg viewBox="0 0 420 270" class="absolute inset-0 w-full h-full" role="img" aria-label="Stylised London and Kent coverage map">
+                                    <path d="M100 78 C139 39 201 46 222 93 C247 86 288 93 303 126 C322 170 288 214 235 211 C214 238 157 237 139 206 C86 211 54 179 66 136 C72 113 82 94 100 78Z" fill="#e0f2fe" stroke="#0c4a6e" stroke-width="2"></path>
+                                    <path d="M220 142 C267 135 334 157 360 203 C322 230 255 232 202 205 C212 184 218 165 220 142Z" fill="#dbeafe" stroke="#075985" stroke-width="2"></path>
+                                    <circle cx="165" cy="130" r="30" fill="#0c4a6e" opacity=".9"></circle>
+                                    <circle cx="279" cy="190" r="24" fill="#075985" opacity=".86"></circle>
+                                    <path d="M164 100 L164 63 M164 160 L164 202 M134 130 L88 130 M195 130 L249 130" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".8"></path>
+                                </svg>
+                                <div class="absolute left-5 bottom-5 bg-white/95 backdrop-blur rounded-2xl p-4 border border-slate-100 shadow-lg">
+                                    <p class="text-xs text-slate-500 font-semibold">Current coverage</p>
+                                    <p class="font-bold text-navy-950">London &amp; Kent</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="rounded-2xl bg-slate-50 p-4 border border-slate-100">
+                                    <p class="text-xs text-slate-500">Step 1</p>
+                                    <p class="font-bold text-navy-950">Details</p>
+                                </div>
+                                <div class="rounded-2xl bg-slate-50 p-4 border border-slate-100">
+                                    <p class="text-xs text-slate-500">Step 2</p>
+                                    <p class="font-bold text-navy-950">Verify</p>
+                                </div>
+                                <div class="rounded-2xl bg-teal-800 p-4 text-white">
+                                    <p class="text-xs text-teal-100">Step 3</p>
+                                    <p class="font-bold">Match</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="relative">
-                    <div class="absolute -top-80 -right-1 w-24 h-24 bg-teal-600 rounded-full opacity-20 blur-xl"></div>
-                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-600 rounded-full opacity-20 blur-xl"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Capture -->
+    <section id="valuation" class="py-20 bg-slate-50 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 reveal">
+                <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i data-lucide="tag" class="w-4 h-4"></i>
+                    Limited Time - Currently Free
+                </div>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Get Your Property Valuation</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">A short conversation-style form. One thing at a time, then we take it from there.</p>
+            </div>
+            <div class="bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden reveal">
+                <div class="grid lg:grid-cols-5">
+                    <div class="lg:col-span-3 p-6 sm:p-8 md:p-12">
+                        <div class="flex items-center justify-between mb-8 gap-4">
+                            <div>
+                                <p id="formStepLabel" class="text-xs font-bold uppercase text-teal-700 mb-2">Step 1 of 7</p>
+                                <h3 id="formTitle" class="font-serif text-3xl font-bold text-navy-950">Let's start with your name.</h3>
+                            </div>
+                            <div class="hidden sm:flex w-14 h-14 bg-teal-50 rounded-full items-center justify-center">
+                                <i data-lucide="message-circle" class="w-7 h-7 text-teal-700"></i>
+                            </div>
+                        </div>
+                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-8">
+                            <div id="formProgress" class="h-full bg-teal-800 rounded-full transition-all duration-300" style="width:14%;"></div>
+                        </div>
+                        <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-6">
+                            <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
+                            <input type="hidden" name="subject" value="New Homeowner Enquiry - Agent Navigator">
+                            <input type="hidden" name="from_name" value="Agent Navigator Website">
+                            <input type="hidden" name="source" value="Conversational homepage form">
+
+                            <div class="form-step active" data-title="Let's start with your name.">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">What's your name? *</label>
+                                <input type="text" name="name" required placeholder="John Smith" autocomplete="name" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                            </div>
+                            <div class="form-step" data-title="And your best number?">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">And your best number? *</label>
+                                <input type="tel" name="phone" required placeholder="07700 900000" autocomplete="tel" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                            </div>
+                            <div class="form-step" data-title="Where should we send confirmation?">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Email address *</label>
+                                <input type="email" name="email" required placeholder="john@example.com" autocomplete="email" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                            </div>
+                            <div class="form-step" data-title="Which postcode is the property in?">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Property postcode *</label>
+                                <input type="text" name="postcode" required placeholder="e.g. BR1 1AA" autocomplete="postal-code" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base uppercase transition-all" oninput="mirrorPostcode(this.value)">
+                                <p id="leadCoverageHint" class="text-sm text-slate-500 mt-3">We currently serve London and Kent, but we can still help if you are outside our coverage.</p>
+                            </div>
+                            <div class="form-step" data-title="When are you available for us to reach out?">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Best time to contact you *</label>
+                                <select name="availability" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                    <option value="" disabled selected>Select a time</option>
+                                    <option value="Weekday morning">Weekday morning</option>
+                                    <option value="Weekday afternoon">Weekday afternoon</option>
+                                    <option value="Weekday evening">Weekday evening</option>
+                                    <option value="Weekend">Weekend</option>
+                                </select>
+                            </div>
+                            <div class="form-step" data-title="What best describes where you are right now?">
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Selling timeframe *</label>
+                                        <select name="selling_timeframe" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                            <option value="" disabled selected>Select one</option>
+                                            <option value="Ready now">Ready now</option>
+                                            <option value="Within 3 months">Within 3 months</option>
+                                            <option value="3 to 6 months">3 to 6 months</option>
+                                            <option value="Just curious">Just curious</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Property type *</label>
+                                        <select name="property_type" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                            <option value="" disabled selected>Select one</option>
+                                            <option value="Detached">Detached</option>
+                                            <option value="Semi-detached">Semi-detached</option>
+                                            <option value="Terraced">Terraced</option>
+                                            <option value="Flat or maisonette">Flat or maisonette</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-step" data-title="How should we contact you?">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred contact method *</label>
+                                <select name="contact_preference" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="Phone call">Phone call</option>
+                                    <option value="Email">Email</option>
+                                    <option value="Either">Either is fine</option>
+                                </select>
+                                <p class="text-xs text-slate-400 pt-4 leading-relaxed">
+                                    Your information is secure. By submitting you agree to our
+                                    <button type="button" onclick="openModal('termsModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Terms of Service</button>
+                                    and
+                                    <button type="button" onclick="openModal('privacyModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Privacy Policy</button>.
+                                </p>
+                            </div>
+
+                            <p id="formError" class="text-red-500 text-sm hidden">Please complete this step before continuing.</p>
+                            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                                <button type="button" id="backBtn" onclick="changeStep(-1)" class="hidden sm:w-auto justify-center bg-white text-slate-700 border border-slate-200 hover:border-teal-600 font-bold px-6 py-4 rounded-xl transition-all">Back</button>
+                                <button type="button" id="nextBtn" onclick="changeStep(1)" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                                    Continue
+                                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                </button>
+                                <button type="submit" id="submitBtn" class="hidden w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl items-center justify-center gap-2">
+                                    <span id="submitText">Confirm My Valuation</span>
+                                    <i data-lucide="arrow-right" class="w-5 h-5" id="submitIcon"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="lg:col-span-2 bg-gradient-to-br from-teal-800 to-navy-900 p-8 md:p-12 text-white flex flex-col justify-center">
+                        <div class="space-y-8">
+                            <div>
+                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
+                                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="font-serif text-2xl font-bold mb-3">Trust is built into the process.</h3>
+                                <p class="text-teal-100 text-sm leading-relaxed">We verify homeowner details before matching, so agents know each enquiry is genuine and homeowners get focused attention.</p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">1</span>
+                                    <span class="font-semibold">Contact details received</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">2</span>
+                                    <span class="font-semibold">Ownership check arranged</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">3</span>
+                                    <span class="font-semibold">Local agent matched</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 rounded-2xl p-5 border border-white/10">
+                                <p class="text-sm text-teal-100">After submitting, you will see instant confirmation and we will follow up by your preferred contact method.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coverage and Agent Search -->
+    <section id="coverage" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-5 gap-10 items-start">
+                <div class="lg:col-span-3 reveal">
+                    <div class="mb-8">
+                        <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Area Coverage</h2>
+                        <p class="text-lg text-slate-600 max-w-2xl">We currently cover London and Kent. If your area is outside our active coverage, we will still do our best to connect you with a strong local agent.</p>
+                    </div>
+                    <div class="relative rounded-3xl premium-panel border border-slate-100 bg-slate-50 overflow-hidden min-h-[430px] map-grid">
+                        <svg viewBox="0 0 680 430" class="absolute inset-0 w-full h-full" role="img" aria-label="Interactive coverage map">
+                            <path d="M130 105 C184 50 286 58 326 126 C373 108 461 124 490 190 C529 277 465 349 376 341 C331 390 234 382 204 325 C124 330 68 278 87 203 C94 163 106 130 130 105Z" fill="#e0f2fe" stroke="#0c4a6e" stroke-width="3"></path>
+                            <path d="M330 220 C414 200 544 236 600 330 C534 381 410 383 314 332 C326 291 333 258 330 220Z" fill="#dbeafe" stroke="#075985" stroke-width="3"></path>
+                            <path d="M505 103 C551 95 603 119 625 160 C603 195 545 211 496 188 C506 159 510 132 505 103Z" fill="#fff7ed" stroke="#fed7aa" stroke-width="2"></path>
+                        </svg>
+                        <button type="button" onclick="selectCoverage('London')" class="coverage-pin active absolute left-[30%] top-[38%] bg-white text-teal-800 border border-teal-100 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
+                            London
+                        </button>
+                        <button type="button" onclick="selectCoverage('Kent')" class="coverage-pin absolute left-[58%] top-[68%] bg-white text-teal-800 border border-teal-100 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
+                            Kent
+                        </button>
+                        <button type="button" onclick="selectCoverage('Essex')" class="coverage-pin absolute right-[9%] top-[31%] bg-white text-slate-600 border border-slate-200 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
+                            Essex
+                        </button>
+                        <div id="coverageMapCopy" class="absolute left-5 right-5 bottom-5 bg-white/95 backdrop-blur rounded-2xl p-5 border border-slate-100 shadow-lg">
+                            <p class="text-sm font-bold text-teal-800 mb-1">London coverage active</p>
+                            <p class="text-sm text-slate-600">Enter a postcode to check whether we can match you directly or help you find a local agent nearby.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 space-y-6 reveal">
+                    <div class="bg-white rounded-3xl premium-panel border border-slate-100 p-6 md:p-8">
+                        <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Check your postcode</h3>
+                        <p class="text-slate-600 text-sm mb-5">We will tell you whether we serve your area or route you into the local-agent search.</p>
+                        <div class="flex gap-3">
+                            <input id="coveragePostcode" type="text" placeholder="e.g. BR1 1AA" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm transition-all">
+                            <button type="button" onclick="checkCoverage()" class="bg-teal-800 hover:bg-teal-900 text-white rounded-xl px-4 flex items-center justify-center" aria-label="Check postcode">
+                                <i data-lucide="search" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <div id="coverageResult" class="mt-5 hidden rounded-2xl p-5 border text-sm"></div>
+                    </div>
+                    <div id="agent-search" class="bg-slate-50 rounded-3xl border border-slate-100 p-6 md:p-8">
+                        <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Local Agent Finder</h3>
+                        <p class="text-slate-600 text-sm mb-5">Live outside our current coverage? Search your postcode and we will prepare the best nearby matches.</p>
+                        <div class="flex gap-3">
+                            <input id="agentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm transition-all bg-white">
+                            <button type="button" onclick="searchLocalAgents()" class="bg-white text-teal-800 border border-teal-100 hover:border-teal-700 rounded-xl px-4 flex items-center justify-center" aria-label="Find local agents">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <div id="agentResults" class="mt-5 space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools -->
+    <section id="tools" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 reveal">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Curious Before You Commit?</h2>
+                <p class="text-lg text-slate-600">Use the instant tools for a directional estimate. They do not replace a professional valuation.</p>
+            </div>
+            <div class="bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden reveal">
+                <div class="flex flex-col md:flex-row border-b border-slate-100">
+                    <button type="button" class="tool-tab active flex-1 px-6 py-4 border-b md:border-b-0 md:border-r border-slate-100 font-bold text-slate-600 transition-colors" onclick="showTool('valuationTool', this)">Property Estimate</button>
+                    <button type="button" class="tool-tab flex-1 px-6 py-4 border-b md:border-b-0 md:border-r border-slate-100 font-bold text-slate-600 transition-colors" onclick="showTool('mortgageTool', this)">Mortgage Calculator</button>
+                    <button type="button" class="tool-tab flex-1 px-6 py-4 font-bold text-slate-600 transition-colors" onclick="showTool('feeTool', this)">Agent Fee Calculator</button>
+                </div>
+
+                <div id="valuationTool" class="tool-panel p-6 md:p-10">
+                    <div class="grid lg:grid-cols-5 gap-8">
+                        <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Postcode</label>
+                                <input id="estimatePostcode" type="text" placeholder="BR1 1AA" class="uppercase w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Property type</label>
+                                <select id="estimateType" class="w-full border border-slate-200 rounded-xl px-4 py-3 bg-white">
+                                    <option value="terraced">Terraced</option>
+                                    <option value="flat">Flat or maisonette</option>
+                                    <option value="semi">Semi-detached</option>
+                                    <option value="detached">Detached</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Bedrooms</label>
+                                <input id="estimateBeds" type="number" min="1" max="8" value="3" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Condition</label>
+                                <select id="estimateCondition" class="w-full border border-slate-200 rounded-xl px-4 py-3 bg-white">
+                                    <option value="standard">Average</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="needs-work">Needs work</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Floor area, sq m</label>
+                                <input id="estimateArea" type="number" min="20" max="600" placeholder="Optional" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Last sold price</label>
+                                <input id="lastSoldPrice" type="number" min="0" placeholder="Optional" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Last sold year</label>
+                                <input id="lastSoldYear" type="number" min="1995" max="2026" placeholder="Optional" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div class="flex items-end">
+                                <button type="button" onclick="estimatePropertyValue()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-6 py-3 rounded-xl transition-colors">Estimate value</button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                            <p class="text-sm font-semibold text-teal-800 mb-2">Estimated range</p>
+                            <div id="estimateResult" class="font-serif text-3xl font-bold text-navy-950 mb-4">Enter details</div>
+                            <p id="estimateContext" class="text-sm text-slate-600 leading-relaxed">This is a guide only and may not reflect the true market value of your home. A local agent valuation is still recommended.</p>
+                            <p class="text-xs text-slate-400 mt-5">Where sale-history data is available, the tool may reference HM Land Registry Price Paid Data. Contains HM Land Registry data &copy; Crown copyright and database right 2021, licensed under the Open Government Licence v3.0.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="mortgageTool" class="tool-panel hidden p-6 md:p-10">
+                    <div class="grid lg:grid-cols-5 gap-8">
+                        <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Purchase price</label>
+                                <input id="mortgagePrice" type="number" value="450000" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Deposit</label>
+                                <input id="mortgageDeposit" type="number" value="90000" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Interest rate %</label>
+                                <input id="mortgageRate" type="number" step="0.1" value="4.8" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Term, years</label>
+                                <input id="mortgageYears" type="number" value="25" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <button type="button" onclick="calculateMortgage()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-6 py-3 rounded-xl transition-colors">Calculate mortgage</button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                            <p class="text-sm font-semibold text-teal-800 mb-2">Estimated monthly repayment</p>
+                            <div id="mortgageResult" class="font-serif text-3xl font-bold text-navy-950 mb-4">&pound;2,063</div>
+                            <p class="text-sm text-slate-600">This is a simple repayment calculation and excludes fees, insurance, taxes, and lender-specific criteria.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="feeTool" class="tool-panel hidden p-6 md:p-10">
+                    <div class="grid lg:grid-cols-5 gap-8">
+                        <div class="lg:col-span-3 grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Sale price</label>
+                                <input id="feeSalePrice" type="number" value="450000" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Agent fee %</label>
+                                <input id="feePercent" type="number" step="0.05" value="1.25" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <label class="sm:col-span-2 flex items-center gap-3 text-sm font-semibold text-slate-700">
+                                <input id="feeVat" type="checkbox" checked class="w-5 h-5 accent-teal-800">
+                                Include VAT at 20%
+                            </label>
+                            <div class="sm:col-span-2">
+                                <button type="button" onclick="calculateAgentFee()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-6 py-3 rounded-xl transition-colors">Calculate fee</button>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                            <p class="text-sm font-semibold text-teal-800 mb-2">Estimated total fee</p>
+                            <div id="feeResult" class="font-serif text-3xl font-bold text-navy-950 mb-4">&pound;6,750</div>
+                            <p id="feeContext" class="text-sm text-slate-600">Based on a 1.25% fee plus VAT.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- How It Works -->
-    <section id="how-it-works" class="py-24 bg-slate-50">
+    <section id="how-it-works" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
                 <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">How It Works</h2>
-                <p class="text-lg text-slate-600">Three simple steps to get your property valuation.</p>
+                <p class="text-lg text-slate-600">Three simple steps to get from interest to a booked valuation.</p>
             </div>
-            <div class="relative">
+            <div class="relative reveal">
                 <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 step-line -translate-y-1/2"></div>
                 <div class="grid md:grid-cols-3 gap-8 relative">
                     <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-slate-50">
-                            <i data-lucide="user" class="w-6 h-6"></i>
+                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
+                            <i data-lucide="message-circle" class="w-6 h-6"></i>
                         </div>
                         <div class="text-center">
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Register Your Interest</h3>
-                            <p class="text-slate-600 leading-relaxed">Provide your name, number and email. We'll reach out via your preferred contact method to find out more about your property.</p>
+                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Tell Us What You Need</h3>
+                            <p class="text-slate-600 leading-relaxed">Answer a few short questions and choose when you want us to reach out.</p>
                         </div>
                     </div>
                     <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-slate-50">
+                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
                             <i data-lucide="shield-check" class="w-6 h-6"></i>
                         </div>
                         <div class="text-center">
                             <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Get Verified</h3>
-                            <p class="text-slate-600 leading-relaxed">We'll confirm your property ownership quickly and securely. All we need is a mortgage statement or Land Registry document and a valid photo ID.</p>
+                            <p class="text-slate-600 leading-relaxed">We confirm ownership securely before passing your enquiry to a local agent.</p>
                         </div>
                     </div>
                     <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-slate-50">
+                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
                             <i data-lucide="calendar-check" class="w-6 h-6"></i>
                         </div>
                         <div class="text-center">
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Get Matched &amp; Book Your Valuation</h3>
-                            <p class="text-slate-600 leading-relaxed">We select a top-performing local estate agent who knows your area, and they'll arrange a free, no-obligation valuation at a time that suits you.</p>
+                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Book Your Valuation</h3>
+                            <p class="text-slate-600 leading-relaxed">Your matched agent arranges a free, no-obligation valuation at a time that suits you.</p>
                         </div>
                     </div>
                 </div>
@@ -170,146 +565,54 @@ if (window.location.pathname.endsWith("index.html")) {
     </section>
 
     <!-- Benefits -->
-    <section id="benefits" class="py-24 bg-white">
+    <section id="benefits" class="py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-3xl mx-auto">
-                <div class="space-y-8 text-center">
-                    <div>
-                        <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Sell Your Home With Confidence</h2>
-                        <p class="text-lg text-slate-600">We created Agent Navigator with one goal — to make finding the right estate agent simple, stress-free, and straightforward. Here's why sellers trust us:</p>
-                    </div>
-                    <div class="space-y-6">
-                        <div class="flex gap-4 text-left">
-                            <i data-lucide="clock" class="w-6 h-6 text-teal-700 mt-1 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="font-bold text-xl text-navy-950 mb-1">Save Time &amp; Stress</h3>
-                                <p class="text-slate-600">No more researching agents, comparing fees, or making cold calls. We do the hard work for you and deliver the best match directly.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 text-left">
-                            <i data-lucide="award" class="w-6 h-6 text-teal-700 mt-1 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="font-bold text-xl text-navy-950 mb-1">Only the Best Agents</h3>
-                                <p class="text-slate-600">We partner exclusively with top-performing agents across London and Kent, selected on proven sales performance and local expertise.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 text-left">
-                            <i data-lucide="shield-check" class="w-6 h-6 text-teal-700 mt-1 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="font-bold text-xl text-navy-950 mb-1">Fully Verified Process</h3>
-                                <p class="text-slate-600">Every homeowner on our platform is identity and ownership verified — meaning agents know every introduction is legitimate and motivated.</p>
-                            </div>
-                        </div>
-                        <div class="flex gap-4 text-left">
-                            <i data-lucide="shield" class="w-6 h-6 text-teal-700 mt-1 flex-shrink-0"></i>
-                            <div>
-                                <h3 class="font-bold text-xl text-navy-950 mb-1">No Obligation</h3>
-                                <p class="text-slate-600">No pressure. We match you with the best local agent and the decision to proceed is entirely yours.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Sell Your Home With Confidence</h2>
+                    <p class="text-lg text-slate-600 mb-8">Agent Navigator is built to reduce the noise around choosing an estate agent. The verification process is the trust signal: real homeowners, real property, better introductions.</p>
                     <a href="#valuation" class="inline-flex items-center bg-teal-800 hover:bg-teal-900 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-lg hover:shadow-xl">
-                        Get My Free Valuation
+                        Start My Valuation
                         <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
                     </a>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4 reveal">
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <i data-lucide="clock" class="w-7 h-7 text-teal-700 mb-4"></i>
+                        <h3 class="font-bold text-xl text-navy-950 mb-2">Save Time</h3>
+                        <p class="text-slate-600 text-sm">No cold calls or agent comparison spreadsheets before you know who is worth speaking to.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <i data-lucide="award" class="w-7 h-7 text-teal-700 mb-4"></i>
+                        <h3 class="font-bold text-xl text-navy-950 mb-2">Local Focus</h3>
+                        <p class="text-slate-600 text-sm">Matches are based on area knowledge and relevant seller needs.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <i data-lucide="shield-check" class="w-7 h-7 text-teal-700 mb-4"></i>
+                        <h3 class="font-bold text-xl text-navy-950 mb-2">Verified First</h3>
+                        <p class="text-slate-600 text-sm">Agents receive legitimate homeowner introductions, so the follow-up is more focused.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <i data-lucide="shield" class="w-7 h-7 text-teal-700 mb-4"></i>
+                        <h3 class="font-bold text-xl text-navy-950 mb-2">No Obligation</h3>
+                        <p class="text-slate-600 text-sm">You decide whether the recommended agent is right for your sale.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Lead Capture -->
-    <section id="valuation" class="py-20 bg-slate-50 relative">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                    <i data-lucide="tag" class="w-4 h-4"></i>
-                    Limited Time — Currently Free
-                </div>
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Get Your Property Valuation</h2>
-                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Leave your details and we'll be in touch. Takes less than a minute.</p>
+    <!-- Success Modal -->
+    <div id="successModal" onclick="closeSuccessModal()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
+        <div onclick="event.stopPropagation()" class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 text-center">
+            <div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                <i data-lucide="check" class="w-8 h-8 text-teal-700"></i>
             </div>
-            <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
-                <div class="grid md:grid-cols-5">
-                    <!-- Form Panel -->
-                    <div class="md:col-span-3 p-8 md:p-12">
-                        <div class="mb-8">
-                            <div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-6">
-                                <i data-lucide="home" class="w-8 h-8 text-teal-700"></i>
-                            </div>
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-2">Register Your Interest</h3>
-                            <p class="text-slate-500 text-sm">Leave your details and we'll reach out via your preferred contact method.</p>
-                        </div>
-                        <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-4">
-                            <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
-                            <input type="hidden" name="subject" value="New Homeowner Enquiry — Agent Navigator">
-                            <input type="hidden" name="from_name" value="Agent Navigator Website">
-                            <input type="hidden" name="h-captcha-response" id="h-captcha-response">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Full Name *</label>
-                                <input type="text" name="name" required placeholder="John Smith" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Email Address *</label>
-                                <input type="email" name="email" required placeholder="john@example.com" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Phone Number *</label>
-                                <input type="tel" name="phone" required placeholder="07700 900000" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm transition-all">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-1">Preferred Contact Method *</label>
-                                <select name="contact_preference" required class="w-full border border-slate-200 rounded-lg px-4 py-3 text-slate-800 text-sm bg-white transition-all">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Phone call">Phone call</option>
-                                </select>
-                            </div>
-                            <div class="flex justify-center pt-1">
-                                <div class="h-captcha" data-sitekey="c3e25924-a195-4c5f-ac8f-92f236189982"></div>
-                            </div>
-                            <button type="submit" id="submitBtn" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-lg transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                                <span id="submitText">Get My Free Valuation</span>
-                                <i data-lucide="arrow-right" class="w-5 h-5" id="submitIcon"></i>
-                            </button>
-                            <p id="formError" class="text-red-500 text-xs text-center hidden">Something went wrong. Please try again or email ricky@agentnavigator.co.uk</p>
-                            <p class="text-xs text-slate-400 text-center pt-1">
-                                🔒 Your information is secure. By submitting you agree to our
-                                <button type="button" onclick="openModal('termsModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Terms of Service</button>
-                                and
-                                <button type="button" onclick="openModal('privacyModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Privacy Policy</button>.
-                            </p>
-                        </form>
-                    </div>
-                    <!-- Trust Signals -->
-                    <div class="md:col-span-2 bg-gradient-to-br from-teal-800 to-navy-900 p-8 md:p-12 text-white flex flex-col justify-center">
-                        <div class="space-y-8">
-                            <div>
-                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                                </div>
-                                <h3 class="font-serif text-xl font-bold mb-2">Verified &amp; Secure</h3>
-                                <p class="text-teal-100 text-sm">Every homeowner is verified before being matched with an agent.</p>
-                            </div>
-                            <div>
-                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                                    <i data-lucide="clock" class="w-6 h-6"></i>
-                                </div>
-                                <h3 class="font-serif text-xl font-bold mb-2">Fast Response</h3>
-                                <p class="text-teal-100 text-sm">We'll be in touch quickly via your preferred contact method.</p>
-                            </div>
-                            <div>
-                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                                    <i data-lucide="award" class="w-6 h-6"></i>
-                                </div>
-                                <h3 class="font-serif text-xl font-bold mb-2">Top Agents Only</h3>
-                                <p class="text-teal-100 text-sm">Market-leading local experts across London and Kent.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <h2 class="font-serif text-3xl font-bold text-navy-950 mb-3">We have received your details.</h2>
+            <p id="successMessage" class="text-slate-600 leading-relaxed mb-6">Thanks - we will be in touch shortly using your preferred contact method.</p>
+            <button onclick="closeSuccessModal()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-6 py-3 rounded-xl transition-colors">Close</button>
         </div>
-    </section>
+    </div>
 
     <!-- Modals -->
     <div id="termsModal" onclick="closeModal('termsModal')" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
@@ -327,7 +630,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 <p style="margin-bottom:1rem;">Agent Navigator acts as an introduction platform only. We are not a party to any agreement between a Homeowner and an Agent, and do not provide estate agency services ourselves.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. For Homeowners</h3>
                 <p style="margin-bottom:0.5rem;">To use our service you must be the legal owner of the property, provide accurate information, and be aged 18 or over.</p>
-                <p style="margin-bottom:0.5rem;"><strong>Pricing:</strong> Our verification and matching service is currently free during our launch period. The standard fee of £39 per property address will apply thereafter. You will be notified before any fee is introduced.</p>
+                <p style="margin-bottom:0.5rem;"><strong>Pricing:</strong> Our verification and matching service is currently free during our launch period. The standard fee of &pound;39 per property address will apply thereafter. You will be notified before any fee is introduced.</p>
                 <p style="margin-bottom:1rem;">The property valuation arranged by your matched agent is free of charge and no-obligation.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">4. Verification</h3>
                 <p style="margin-bottom:1rem;">As part of our process we may ask you to confirm property ownership by providing a mortgage statement or Land Registry document, along with valid photo ID and proof of address. This is handled securely via Dropbox Sign.</p>
@@ -356,10 +659,11 @@ if (window.location.pathname.endsWith("index.html")) {
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">1. Who We Are</h3>
                 <p style="margin-bottom:1rem;">Agent Navigator Ltd is the data controller. Contact: ricky@agentnavigator.co.uk. ICO Registration in progress.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">2. What Data We Collect</h3>
-                <p style="margin-bottom:0.5rem;"><strong>Stage 1 (website form):</strong> Name, email, phone, preferred contact method.</p>
-                <p style="margin-bottom:1rem;"><strong>Stage 2 (follow-up):</strong> Property address, type, bedrooms, approximate value, timeframe, proof of ownership, proof of address, photo ID.</p>
+                <p style="margin-bottom:0.5rem;"><strong>Website form:</strong> Name, email, phone, property postcode, availability, selling timeframe, property type, and preferred contact method.</p>
+                <p style="margin-bottom:0.5rem;"><strong>On-page tools:</strong> Calculator inputs such as postcode, property type, bedrooms, floor area, sale price, deposit, mortgage rate, and agent fee assumptions are used to show estimates on the page.</p>
+                <p style="margin-bottom:1rem;"><strong>Follow-up:</strong> Property address, type, bedrooms, approximate value, timeframe, proof of ownership, proof of address, photo ID.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. How We Use Your Data</h3>
-                <p style="margin-bottom:1rem;">To contact you, verify your property ownership, match you with a local estate agent in London or Kent, and fulfil our service obligations.</p>
+                <p style="margin-bottom:1rem;">To contact you, verify your property ownership, match you with a local estate agent, support postcode coverage checks, and fulfil our service obligations.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">4. Who We Share Data With</h3>
                 <p style="margin-bottom:1rem;">Estate agents (to arrange valuations), Web3Forms (form processor), Dropbox Sign (secure document handling), Google Workspace (data storage), and regulatory authorities if required. We do not sell personal data.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">5. Your Rights</h3>
@@ -386,7 +690,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 <p style="margin-bottom:1rem;">Small text files placed on your device when you visit a website, allowing it to recognise your device and store preferences.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">2. Cookies We Use</h3>
                 <p style="margin-bottom:0.5rem;"><strong>Essential:</strong> Necessary for the website to function. No personal data stored on our website directly.</p>
-                <p style="margin-bottom:1rem;"><strong>Third-party:</strong> Web3Forms (form processing), hCaptcha (spam protection), and Google Fonts (typography) may set their own cookies.</p>
+                <p style="margin-bottom:1rem;"><strong>Third-party:</strong> Web3Forms (form processing), Google Fonts (typography), and optional property-data providers may set their own cookies or process technical request data.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">3. What We Do Not Do</h3>
                 <p style="margin-bottom:1rem;">We do not use advertising or tracking cookies and we do not sell data collected via cookies.</p>
                 <h3 style="font-weight:700;color:#1e293b;margin:1.25rem 0 0.5rem;">4. Managing Cookies</h3>
@@ -400,27 +704,21 @@ if (window.location.pathname.endsWith("index.html")) {
         </div>
     </div>
 
-    <script>
-        function openModal(id){var m=document.getElementById(id);m.style.display='flex';document.body.style.overflow='hidden';}
-        function closeModal(id){var m=document.getElementById(id);m.style.display='none';document.body.style.overflow='';}
-        document.addEventListener('keydown',function(e){if(e.key==='Escape'){['termsModal','privacyModal','cookieModal'].forEach(closeModal);closeSuccessModal();}});
-    </script>
-
     <!-- FAQ -->
     <section class="py-24 bg-white">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 reveal">
                 <h2 class="font-serif text-4xl font-bold text-navy-950 mb-4">Common Questions</h2>
                 <p class="text-slate-600">Everything you need to know about our service</p>
             </div>
-            <div class="space-y-4">
+            <div class="space-y-4 reveal">
                 <div class="border border-slate-200 rounded-xl overflow-hidden">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition-colors" onclick="toggleFaq(this)">
                         <span class="font-semibold text-navy-950">Is Agent Navigator currently free?</span>
                         <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
                     </button>
                     <div class="hidden px-6 py-4 bg-slate-50 text-slate-600 border-t border-slate-100">
-                        Yes — during our launch period our verification and matching service is completely free. The standard fee of £39 per property will apply in future. You'll be notified before any charge is introduced.
+                        Yes - during our launch period our verification and matching service is completely free. The standard fee of &pound;39 per property will apply in future. You'll be notified before any charge is introduced.
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl overflow-hidden">
@@ -447,7 +745,7 @@ if (window.location.pathname.endsWith("index.html")) {
                         <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
                     </button>
                     <div class="hidden px-6 py-4 bg-slate-50 text-slate-600 border-t border-slate-100">
-                        We currently connect homeowners across London and Kent with verified local estate agents.
+                        We currently connect homeowners across London and Kent with verified local estate agents. If you are outside those areas, use the local-agent finder and we will do our best to help you identify a strong agent nearby.
                     </div>
                 </div>
                 <div class="border border-slate-200 rounded-xl overflow-hidden">
@@ -468,24 +766,39 @@ if (window.location.pathname.endsWith("index.html")) {
                         We aim to be in touch as quickly as possible via your preferred contact method after you submit your details.
                     </div>
                 </div>
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition-colors" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-navy-950">Is the property estimate accurate?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="hidden px-6 py-4 bg-slate-50 text-slate-600 border-t border-slate-100">
+                        It is an estimate only. It can help a curious homeowner get a rough range, but it may not reflect the final market valuation, condition, buyer demand, or local micro-market changes.
+                    </div>
+                </div>
+                <div class="border border-slate-200 rounded-xl overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-slate-50 transition-colors" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-navy-950">Can I search for agents if you do not cover my area?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="hidden px-6 py-4 bg-slate-50 text-slate-600 border-t border-slate-100">
+                        Yes. Search by postcode and the page will route you into the local-agent search experience. Behind the scenes, this can be connected to your chosen live property-data or estate-agent provider.
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
     <section class="py-20 bg-gradient-to-br from-teal-800 to-navy-900 text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-            <div class="absolute bottom-10 right-10 w-64 h-64 bg-teal-400 rounded-full blur-3xl"></div>
-        </div>
+        <div class="absolute inset-0 opacity-10 map-grid"></div>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 class="font-serif text-4xl md:text-6xl font-bold mb-6">Ready to Find Your Agent?</h2>
-            <p class="text-xl text-teal-100 mb-10 max-w-2xl mx-auto">Join homeowners across London and Kent finding their perfect estate agent through Agent Navigator — currently free during our launch period.</p>
+            <p class="text-xl text-teal-100 mb-10 max-w-2xl mx-auto">Join homeowners across London and Kent finding their perfect estate agent through Agent Navigator - currently free during our launch period.</p>
             <a href="#valuation" class="inline-flex items-center justify-center bg-white text-teal-900 hover:bg-teal-50 text-xl font-bold px-12 py-5 rounded-full transition-all transform hover:scale-105 shadow-2xl">
-                Get Started — It's Free
+                Get Started - It's Free
                 <i data-lucide="arrow-right" class="w-6 h-6 ml-3"></i>
             </a>
-            <p class="mt-6 text-teal-200 text-sm">Takes less than a minute • No obligation valuation • Currently free</p>
+            <p class="mt-6 text-teal-200 text-sm">Takes less than a minute - no obligation valuation - currently free</p>
         </div>
     </section>
 
@@ -502,8 +815,10 @@ if (window.location.pathname.endsWith("index.html")) {
                 <div>
                     <h4 class="text-white font-bold mb-4">Homeowners</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="index.html#how-it-works" class="hover:text-teal-400 transition-colors">How It Works</a></li>
-                        <li><a href="index.html#valuation" class="hover:text-teal-400 transition-colors">Get Valuation</a></li>
+                        <li><a href="#valuation" class="hover:text-teal-400 transition-colors">Get Valuation</a></li>
+                        <li><a href="#coverage" class="hover:text-teal-400 transition-colors">Check Coverage</a></li>
+                        <li><a href="#tools" class="hover:text-teal-400 transition-colors">Calculators</a></li>
+                        <li><a href="#how-it-works" class="hover:text-teal-400 transition-colors">How It Works</a></li>
                     </ul>
                 </div>
                 <div>
@@ -536,37 +851,467 @@ if (window.location.pathname.endsWith("index.html")) {
     </footer>
 
     <script>
-        lucide.createIcons();
-        function toggleMobileMenu(){ document.getElementById('mobile-menu').classList.toggle('hidden'); }
-        function openModal(id){ var m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
-        function closeModal(id){ var m=document.getElementById(id); m.style.display='none'; document.body.style.overflow=''; }
-        function closeSuccessModal(){ document.getElementById('successModal').style.display='none'; document.body.style.overflow=''; }
-        document.addEventListener('keydown',function(e){ if(e.key==='Escape'){['termsModal','privacyModal','cookieModal'].forEach(closeModal);closeSuccessModal();} });
+        const coverageAreas = {
+            London: ['E','EC','N','NW','SE','SW','W','WC','BR','CR','DA','EN','HA','IG','KT','RM','SM','TW','UB','WD'],
+            Kent: ['BR','CT','DA','ME','TN']
+        };
+        const areaProfiles = {
+            London: { label:'London', base:620000, pricePerSqm:7350, growth:.035 },
+            Kent: { label:'Kent', base:390000, pricePerSqm:4100, growth:.032 },
+            Essex: { label:'Essex', base:415000, pricePerSqm:4300, growth:.031 },
+            Other: { label:'your area', base:340000, pricePerSqm:3600, growth:.028 }
+        };
+        const agentApiEndpoint = window.AGENT_NAVIGATOR_AGENT_API || '';
+        const landRegistryEndpoint = window.AGENT_NAVIGATOR_LAND_REGISTRY_API || 'https://landregistry.data.gov.uk/data/ppi/transaction-record.json';
+        let currentStep = 0;
 
-        async function handleAgentSubmit(event) {
-            event.preventDefault();
-            const btn=document.getElementById('agentSubmitBtn');
-            const text=document.getElementById('agentSubmitText');
-            const icon=document.getElementById('agentSubmitIcon');
-            const error=document.getElementById('agentFormError');
-            btn.disabled=true; text.textContent='Submitting...'; icon.style.display='none'; error.classList.add('hidden');
-            try {
-                const response=await fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(event.target)});
-                const data=await response.json();
-                if(data.success){ event.target.reset(); document.getElementById('successModal').style.display='flex'; document.body.style.overflow='hidden'; lucide.createIcons(); }
-                else { throw new Error('Failed'); }
-            } catch(err){ error.classList.remove('hidden'); }
-            finally{ btn.disabled=false; text.textContent='Submit Application'; icon.style.display=''; }
+        function money(value) {
+            return new Intl.NumberFormat('en-GB', { style:'currency', currency:'GBP', maximumFractionDigits:0 }).format(Math.max(0, Math.round(value || 0)));
         }
 
-        window.addEventListener('scroll',function(){ document.getElementById('navbar').classList.toggle('shadow-md',window.scrollY>50); });
-        document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-            anchor.addEventListener('click',function(e){
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            if (!modal) return;
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function postcodeOutward(postcode) {
+            const compact = String(postcode || '').toUpperCase().replace(/\s+/g, '');
+            const match = compact.match(/^[A-Z]{1,2}\d[A-Z\d]?/);
+            return match ? match[0] : '';
+        }
+
+        function postcodeArea(postcode) {
+            const outward = postcodeOutward(postcode);
+            const match = outward.match(/^[A-Z]+/);
+            return match ? match[0] : '';
+        }
+
+        function getCoverage(postcode) {
+            const area = postcodeArea(postcode);
+            if (!area) return { covered:false, region:'Unknown', area:'' };
+            if (coverageAreas.London.includes(area)) return { covered:true, region:'London', area };
+            if (coverageAreas.Kent.includes(area)) return { covered:true, region:'Kent', area };
+            return { covered:false, region:inferOutsideRegion(area), area };
+        }
+
+        function inferOutsideRegion(area) {
+            if (['CM','CO','SS'].includes(area)) return 'Essex';
+            if (['BN','RH'].includes(area)) return 'Sussex';
+            if (['GU','RH','KT'].includes(area)) return 'Surrey';
+            return 'your area';
+        }
+
+        function updateLeadCoverageHint(value) {
+            const hint = document.getElementById('leadCoverageHint');
+            if (!hint) return;
+            const status = getCoverage(value);
+            if (!postcodeArea(value)) {
+                hint.textContent = 'We currently serve London and Kent, but we can still help if you are outside our coverage.';
+                hint.className = 'text-sm text-slate-500 mt-3';
+                return;
+            }
+            if (status.covered) {
+                hint.textContent = status.region + ' is inside our current coverage.';
+                hint.className = 'text-sm text-teal-700 font-semibold mt-3';
+            } else {
+                hint.textContent = 'Live in an area we do not cover? Not a problem - we can still help you search for a strong local agent.';
+                hint.className = 'text-sm text-amber-700 font-semibold mt-3';
+            }
+        }
+
+        function mirrorPostcode(value) {
+            ['coveragePostcode','agentPostcode','estimatePostcode'].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (input && !input.value) input.value = value.toUpperCase();
+            });
+            updateLeadCoverageHint(value);
+        }
+
+        function formSteps() {
+            return Array.from(document.querySelectorAll('.form-step'));
+        }
+
+        function updateFormStep() {
+            const steps = formSteps();
+            const step = steps[currentStep];
+            const title = document.getElementById('formTitle');
+            const label = document.getElementById('formStepLabel');
+            const progress = document.getElementById('formProgress');
+            const back = document.getElementById('backBtn');
+            const next = document.getElementById('nextBtn');
+            const submit = document.getElementById('submitBtn');
+            steps.forEach(function(el, index) { el.classList.toggle('active', index === currentStep); });
+            if (title && step) title.textContent = step.dataset.title || title.textContent;
+            if (label) label.textContent = 'Step ' + (currentStep + 1) + ' of ' + steps.length;
+            if (progress) progress.style.width = (((currentStep + 1) / steps.length) * 100) + '%';
+            if (back) back.classList.toggle('hidden', currentStep === 0);
+            if (next) next.classList.toggle('hidden', currentStep === steps.length - 1);
+            if (submit) {
+                const isLast = currentStep === steps.length - 1;
+                submit.classList.toggle('hidden', !isLast);
+                submit.classList.toggle('flex', isLast);
+            }
+            const error = document.getElementById('formError');
+            if (error) error.classList.add('hidden');
+            const focusable = step ? step.querySelector('input, select, textarea') : null;
+            if (focusable && window.innerWidth > 768) setTimeout(function(){ focusable.focus(); }, 80);
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function validateCurrentStep() {
+            const step = formSteps()[currentStep];
+            const error = document.getElementById('formError');
+            if (!step) return true;
+            const fields = Array.from(step.querySelectorAll('input, select, textarea'));
+            const invalid = fields.find(function(field) { return !field.checkValidity(); });
+            if (invalid) {
+                if (error) {
+                    error.textContent = 'Please complete this step before continuing.';
+                    error.classList.remove('hidden');
+                }
+                invalid.focus();
+                return false;
+            }
+            if (error) error.classList.add('hidden');
+            return true;
+        }
+
+        function changeStep(direction) {
+            const steps = formSteps();
+            if (direction > 0 && !validateCurrentStep()) return;
+            currentStep = Math.min(Math.max(currentStep + direction, 0), steps.length - 1);
+            updateFormStep();
+        }
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const steps = formSteps();
+            for (let i = 0; i < steps.length; i++) {
+                currentStep = i;
+                updateFormStep();
+                if (!validateCurrentStep()) return;
+            }
+
+            const form = event.target;
+            const btn = document.getElementById('submitBtn');
+            const text = document.getElementById('submitText');
+            const icon = document.getElementById('submitIcon');
+            const error = document.getElementById('formError');
+            const formData = new FormData(form);
+            const name = formData.get('name') || 'there';
+            const preference = formData.get('contact_preference') || 'your preferred contact method';
+            const availability = formData.get('availability') || 'your selected time';
+
+            btn.disabled = true;
+            if (text) text.textContent = 'Submitting...';
+            if (icon) icon.style.display = 'none';
+            if (error) error.classList.add('hidden');
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', { method:'POST', body:formData });
+                const data = await response.json();
+                if (!data.success) throw new Error('Form submission failed');
+                form.reset();
+                currentStep = 0;
+                updateFormStep();
+                const message = document.getElementById('successMessage');
+                if (message) message.textContent = 'Thanks ' + name + ' - we have received your details and will be in touch within 24 hours by ' + preference + ', ideally around ' + availability + '.';
+                document.getElementById('successModal').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                if (window.lucide) lucide.createIcons();
+            } catch (err) {
+                if (error) {
+                    error.textContent = 'Something went wrong. Please try again or email ricky@agentnavigator.co.uk';
+                    error.classList.remove('hidden');
+                }
+            } finally {
+                btn.disabled = false;
+                if (text) text.textContent = 'Confirm My Valuation';
+                if (icon) icon.style.display = '';
+            }
+        }
+
+        function selectCoverage(region) {
+            document.querySelectorAll('.coverage-pin').forEach(function(pin) {
+                pin.classList.toggle('active', pin.textContent.trim() === region);
+            });
+            const copy = {
+                London: ['London coverage active', 'We cover London postcodes including central, north, south, east, west, and key outer London areas.'],
+                Kent: ['Kent coverage active', 'We cover Kent postcodes including Bromley borders, Dartford, Medway, Canterbury, Tonbridge and surrounding towns.'],
+                Essex: ['Outside active coverage', 'Essex is not currently in direct coverage. Search your postcode and we will help you find a strong local agent.']
+            };
+            const panel = document.getElementById('coverageMapCopy');
+            const selected = copy[region] || copy.London;
+            if (panel) {
+                panel.innerHTML = '<p class="text-sm font-bold text-teal-800 mb-1">' + selected[0] + '</p><p class="text-sm text-slate-600">' + selected[1] + '</p>';
+            }
+        }
+
+        function checkCoverage() {
+            const input = document.getElementById('coveragePostcode');
+            const result = document.getElementById('coverageResult');
+            const postcode = input.value.trim().toUpperCase();
+            const status = getCoverage(postcode);
+            if (!postcodeArea(postcode)) {
+                result.className = 'mt-5 rounded-2xl p-5 border border-red-100 bg-red-50 text-sm text-red-700';
+                result.innerHTML = '<strong>Enter a valid UK postcode.</strong><br>Use the first part or full postcode, for example BR1 1AA.';
+                return;
+            }
+            result.classList.remove('hidden');
+            if (status.covered) {
+                result.className = 'mt-5 rounded-2xl p-5 border border-teal-100 bg-teal-50 text-sm text-teal-800';
+                result.innerHTML = '<strong>' + postcode + ' is covered.</strong><br>We can match you with a local estate agent in ' + status.region + '. <a href="#valuation" class="underline font-bold">Start your valuation</a>.';
+                selectCoverage(status.region);
+            } else {
+                result.className = 'mt-5 rounded-2xl p-5 border border-amber-200 bg-amber-50 text-sm text-amber-800';
+                result.innerHTML = '<strong>Live in an area we do not cover?</strong><br>Not a problem. Reach out and we will do our best to match you with a top local agent in ' + status.region + ', or see for yourself below.<div class="mt-4"><button type="button" onclick="searchLocalAgents(\'' + postcode.replace(/'/g, '') + '\')" class="bg-white border border-amber-200 text-amber-900 font-bold px-4 py-2 rounded-xl">Search local agents</button></div>';
+                selectCoverage(status.region === 'Essex' ? 'Essex' : 'London');
+                const agentInput = document.getElementById('agentPostcode');
+                if (agentInput) agentInput.value = postcode;
+            }
+        }
+
+        async function searchLocalAgents(postcodeOverride) {
+            const input = document.getElementById('agentPostcode');
+            const results = document.getElementById('agentResults');
+            const postcode = String(postcodeOverride || input.value || '').trim().toUpperCase();
+            if (input && postcodeOverride) input.value = postcode;
+            if (!postcodeArea(postcode)) {
+                results.innerHTML = '<div class="rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">Enter a valid postcode to search local agents.</div>';
+                return;
+            }
+            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">Searching local agent matches...</div>';
+
+            try {
+                let agents = [];
+                if (agentApiEndpoint) {
+                    const response = await fetch(agentApiEndpoint + '?postcode=' + encodeURIComponent(postcode));
+                    if (response.ok) agents = await response.json();
+                }
+                if (!Array.isArray(agents) || agents.length === 0) agents = fallbackAgents(postcode);
+                renderAgents(agents, postcode);
+            } catch (err) {
+                renderAgents(fallbackAgents(postcode), postcode);
+            }
+        }
+
+        function fallbackAgents(postcode) {
+            const status = getCoverage(postcode);
+            const region = status.region === 'your area' ? 'Local' : status.region;
+            const area = status.area || 'UK';
+            return [
+                { name: region + ' premium sales specialist', badge:'Best overall fit', score:94, detail:'Strong match profile for homeowners seeking a guided valuation route near ' + area + '.' },
+                { name: region + ' fast-sale specialist', badge:'Speed focused', score:91, detail:'Good fit where timing and active buyer demand are the priority.' },
+                { name: region + ' valuation-led specialist', badge:'Pricing confidence', score:88, detail:'Good fit where pricing strategy and comparable evidence matter most.' }
+            ];
+        }
+
+        function renderAgents(agents, postcode) {
+            const results = document.getElementById('agentResults');
+            const status = getCoverage(postcode);
+            const intro = status.covered
+                ? 'You are inside our active coverage. We can verify and match you directly.'
+                : 'Outside active coverage. We will use this postcode to prepare local match profiles before making an introduction.';
+            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div>' + agents.slice(0,3).map(function(agent, index) {
+                return '<div class="rounded-2xl bg-white border border-slate-100 p-4 shadow-sm">' +
+                    '<div class="flex items-start justify-between gap-4">' +
+                    '<div><p class="text-xs font-bold uppercase text-teal-700">Match ' + (index + 1) + ' - ' + agent.badge + '</p>' +
+                    '<h4 class="font-bold text-navy-950 mt-1">' + agent.name + '</h4>' +
+                    '<p class="text-sm text-slate-600 mt-2">' + agent.detail + '</p></div>' +
+                    '<div class="text-right"><span class="inline-flex bg-teal-50 text-teal-800 font-bold rounded-full px-3 py-1 text-sm">' + agent.score + '</span></div>' +
+                    '</div></div>';
+            }).join('') + '<a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
+        }
+
+        function getAreaProfile(postcode) {
+            const status = getCoverage(postcode);
+            if (status.covered && areaProfiles[status.region]) return areaProfiles[status.region];
+            if (status.region === 'Essex') return areaProfiles.Essex;
+            return areaProfiles.Other;
+        }
+
+        function showTool(id, button) {
+            document.querySelectorAll('.tool-panel').forEach(function(panel) {
+                panel.classList.toggle('hidden', panel.id !== id);
+            });
+            document.querySelectorAll('.tool-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab === button);
+            });
+        }
+
+        function estimatePropertyValue() {
+            const postcode = document.getElementById('estimatePostcode').value.trim().toUpperCase();
+            const type = document.getElementById('estimateType').value;
+            const beds = Number(document.getElementById('estimateBeds').value || 3);
+            const condition = document.getElementById('estimateCondition').value;
+            const area = Number(document.getElementById('estimateArea').value || 0);
+            const lastSoldPrice = Number(document.getElementById('lastSoldPrice').value || 0);
+            const lastSoldYear = Number(document.getElementById('lastSoldYear').value || 0);
+            const profile = getAreaProfile(postcode);
+            const typeMultiplier = { flat:.78, terraced:1, semi:1.16, detached:1.45 };
+            const conditionMultiplier = { 'needs-work':.91, standard:1, excellent:1.09 };
+            const bedMultiplier = Math.min(1.65, Math.max(.72, .72 + (beds * .13)));
+            let estimate = profile.base * (typeMultiplier[type] || 1) * bedMultiplier * (conditionMultiplier[condition] || 1);
+
+            if (area > 0) {
+                estimate = (estimate * .35) + (profile.pricePerSqm * area * (conditionMultiplier[condition] || 1) * .65);
+            }
+            if (lastSoldPrice > 0 && lastSoldYear >= 1995) {
+                const years = Math.max(0, new Date().getFullYear() - lastSoldYear);
+                const indexed = lastSoldPrice * Math.pow(1 + profile.growth, years);
+                estimate = (estimate * .4) + (indexed * .6);
+            }
+
+            renderEstimate(estimate, profile.label, 'Estimated from your property inputs. This is still only a guide and may not reflect the final market valuation.');
+            if (postcodeArea(postcode)) hydrateLandRegistryEstimate(postcode, estimate, profile.label);
+        }
+
+        function renderEstimate(estimate, areaLabel, context) {
+            const low = estimate * .93;
+            const high = estimate * 1.08;
+            document.getElementById('estimateResult').textContent = money(low) + ' - ' + money(high);
+            document.getElementById('estimateContext').textContent = context + ' Area basis: ' + areaLabel + '.';
+        }
+
+        async function hydrateLandRegistryEstimate(postcode, currentEstimate, areaLabel) {
+            try {
+                const sales = await fetchLandRegistrySales(postcode);
+                if (!sales.length) return;
+                const recent = sales.sort(function(a,b){ return b.date.localeCompare(a.date); }).slice(0, 8);
+                const average = recent.reduce(function(total, sale){ return total + sale.price; }, 0) / recent.length;
+                if (!average || Number.isNaN(average)) return;
+                const blended = (currentEstimate * .65) + (average * .35);
+                renderEstimate(blended, areaLabel, 'Estimated from your inputs plus ' + recent.length + ' nearby sale record' + (recent.length === 1 ? '' : 's') + ' where available from HM Land Registry Price Paid Data. This is still only a guide and may not reflect the final market valuation.');
+            } catch (err) {
+                return;
+            }
+        }
+
+        async function fetchLandRegistrySales(postcode) {
+            const controller = new AbortController();
+            const timeout = setTimeout(function(){ controller.abort(); }, 2500);
+            const joiner = landRegistryEndpoint.indexOf('?') === -1 ? '?' : '&';
+            const url = landRegistryEndpoint + joiner + 'propertyAddress.postcode=' + encodeURIComponent(postcode);
+            try {
+                const response = await fetch(url, { signal:controller.signal, headers:{ Accept:'application/json' } });
+                if (!response.ok) return [];
+                const data = await response.json();
+                return normaliseLandRegistryItems(data);
+            } finally {
+                clearTimeout(timeout);
+            }
+        }
+
+        function normaliseLandRegistryItems(data) {
+            const items = (data && data.result && data.result.items) || data.items || [];
+            return items.map(function(item) {
+                const price = Number(String(extractLinkedValue(item.pricePaid || item.price || item.amount)).replace(/[^\d.]/g, ''));
+                const date = String(extractLinkedValue(item.transactionDate || item.date || ''));
+                return { price, date };
+            }).filter(function(item) { return item.price > 0 && item.date; });
+        }
+
+        function extractLinkedValue(value) {
+            if (Array.isArray(value)) return extractLinkedValue(value[0]);
+            if (value && typeof value === 'object') return value._value || value.value || value['@value'] || value.label || '';
+            return value || '';
+        }
+
+        function calculateMortgage() {
+            const price = Number(document.getElementById('mortgagePrice').value || 0);
+            const deposit = Number(document.getElementById('mortgageDeposit').value || 0);
+            const annualRate = Number(document.getElementById('mortgageRate').value || 0) / 100;
+            const years = Number(document.getElementById('mortgageYears').value || 25);
+            const principal = Math.max(0, price - deposit);
+            const months = years * 12;
+            const monthlyRate = annualRate / 12;
+            const repayment = monthlyRate === 0 ? principal / months : principal * (monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+            document.getElementById('mortgageResult').textContent = money(repayment);
+        }
+
+        function calculateAgentFee() {
+            const price = Number(document.getElementById('feeSalePrice').value || 0);
+            const percent = Number(document.getElementById('feePercent').value || 0);
+            const includeVat = document.getElementById('feeVat').checked;
+            const fee = price * (percent / 100);
+            const total = includeVat ? fee * 1.2 : fee;
+            document.getElementById('feeResult').textContent = money(total);
+            document.getElementById('feeContext').textContent = 'Based on a ' + percent.toFixed(2) + '% fee' + (includeVat ? ' plus VAT.' : ' without VAT.');
+        }
+
+        function toggleFaq(button) {
+            const panel = button.nextElementSibling;
+            const icon = button.querySelector('[data-lucide="chevron-down"]');
+            if (!panel) return;
+            panel.classList.toggle('hidden');
+            if (icon) icon.classList.toggle('rotate-180');
+        }
+
+        function initRevealMotion() {
+            const items = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                items.forEach(function(item){ item.classList.add('is-visible'); });
+                return;
+            }
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold:.12 });
+            items.forEach(function(item){ observer.observe(item); });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                ['termsModal','privacyModal','cookieModal'].forEach(closeModal);
+                closeSuccessModal();
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            document.getElementById('navbar').classList.toggle('shadow-md', window.scrollY > 50);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+            anchor.addEventListener('click', function(e) {
+                const selector = this.getAttribute('href');
+                if (!selector || selector.length < 2) return;
+                const target = document.querySelector(selector);
+                if (!target) return;
                 e.preventDefault();
-                const target=document.querySelector(this.getAttribute('href'));
-                if(target){target.scrollIntoView({behavior:'smooth',block:'start'});document.getElementById('mobile-menu').classList.add('hidden');}
+                target.scrollIntoView({ behavior:'smooth', block:'start' });
+                document.getElementById('mobile-menu').classList.add('hidden');
             });
         });
+
+        updateFormStep();
+        calculateMortgage();
+        calculateAgentFee();
+        initRevealMotion();
+        if (window.lucide) lucide.createIcons();
     </script>
 </body>
 </html>
