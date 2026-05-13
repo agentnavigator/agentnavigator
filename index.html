@@ -106,7 +106,7 @@ if (window.location.pathname.endsWith("index.html")) {
 
 
     <!-- Hero -->
-    <section class="relative pt-32 pb-16 lg:pt-36 lg:pb-24 overflow-hidden compass-bg">
+    <section id="valuation" class="relative pt-32 pb-16 lg:pt-36 lg:pb-24 overflow-hidden compass-bg">
         <div class="absolute inset-0 z-0 opacity-30">
             <div class="absolute top-20 right-0 w-96 h-96 bg-teal-100 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl"></div>
@@ -154,17 +154,121 @@ if (window.location.pathname.endsWith("index.html")) {
                 </div>
                 <div class="relative reveal">
                     <div class="hero-dashboard bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden">
-                        <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-4">
+                        <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between gap-4">
                             <div>
                                 <p class="text-xs uppercase text-slate-400 font-bold">Start here</p>
-                                <h2 class="font-serif text-2xl font-bold text-navy-950">Map, match or estimate</h2>
+                                <h2 class="font-serif text-2xl font-bold text-navy-950">Get matched without scrolling</h2>
                             </div>
                             <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center">
-                                <i data-lucide="map" class="w-6 h-6 text-teal-700"></i>
+                                <i data-lucide="message-circle" class="w-6 h-6 text-teal-700"></i>
                             </div>
                         </div>
-                        <div class="p-6 space-y-5">
-                            <div class="relative rounded-2xl border border-slate-100 bg-slate-50 overflow-hidden h-64">
+                        <div class="grid grid-cols-4 border-b border-slate-100">
+                            <button type="button" class="mini-tool-tab active px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroValuationTool', this)">Valuation</button>
+                            <button type="button" class="mini-tool-tab px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroCoverageTool', this)">Check area</button>
+                            <button type="button" class="mini-tool-tab px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroAgentTool', this)">Find agent</button>
+                            <a href="#tools" class="px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold text-slate-600 hover:text-teal-800 text-center">Estimate</a>
+                        </div>
+                        <div id="heroValuationTool" class="hero-tool p-5 sm:p-6">
+                            <div class="flex items-center justify-between mb-5 gap-4">
+                                <div>
+                                    <p id="formStepLabel" class="text-xs font-bold uppercase text-teal-700 mb-2">Step 1 of 7</p>
+                                    <h3 id="formTitle" class="font-serif text-2xl font-bold text-navy-950">Let's start with your name.</h3>
+                                </div>
+                                <a href="#tools" class="hidden sm:inline-flex text-xs font-bold text-teal-800 underline">See your property estimate</a>
+                            </div>
+                            <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6">
+                                <div id="formProgress" class="h-full bg-teal-800 rounded-full transition-all duration-300" style="width:14%;"></div>
+                            </div>
+                            <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-5">
+                                <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
+                                <input type="hidden" name="subject" value="New Homeowner Enquiry - Agent Navigator">
+                                <input type="hidden" name="from_name" value="Agent Navigator Website">
+                                <input type="hidden" name="source" value="Hero conversational form">
+
+                                <div class="form-step active" data-title="Let's start with your name.">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">What's your name? *</label>
+                                    <input type="text" name="name" required placeholder="John Smith" autocomplete="name" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                                </div>
+                                <div class="form-step" data-title="And your best number?">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">And your best number? *</label>
+                                    <input type="tel" name="phone" required placeholder="07700 900000" autocomplete="tel" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                                </div>
+                                <div class="form-step" data-title="Where should we send confirmation?">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Email address *</label>
+                                    <input type="email" name="email" required placeholder="john@example.com" autocomplete="email" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
+                                </div>
+                                <div class="form-step" data-title="Which postcode is the property in?">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Property postcode *</label>
+                                    <input type="text" name="postcode" required placeholder="e.g. ME14 1XX" autocomplete="postal-code" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base uppercase transition-all" oninput="mirrorPostcode(this.value)">
+                                    <p id="leadCoverageHint" class="text-sm text-slate-500 mt-3">We currently serve London and Kent, but we can still help if you are outside our coverage.</p>
+                                </div>
+                                <div class="form-step" data-title="When are you available for us to reach out?">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Best time to contact you *</label>
+                                    <select name="availability" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                        <option value="" disabled selected>Select a time</option>
+                                        <option value="Weekday morning">Weekday morning</option>
+                                        <option value="Weekday afternoon">Weekday afternoon</option>
+                                        <option value="Weekday evening">Weekday evening</option>
+                                        <option value="Weekend">Weekend</option>
+                                    </select>
+                                </div>
+                                <div class="form-step" data-title="What best describes where you are right now?">
+                                    <div class="grid sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-2">Selling timeframe *</label>
+                                            <select name="selling_timeframe" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                                <option value="" disabled selected>Select one</option>
+                                                <option value="Ready now">Ready now</option>
+                                                <option value="Within 3 months">Within 3 months</option>
+                                                <option value="3 to 6 months">3 to 6 months</option>
+                                                <option value="Just curious">Just curious</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-2">Property type *</label>
+                                            <select name="property_type" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                                <option value="" disabled selected>Select one</option>
+                                                <option value="Detached">Detached</option>
+                                                <option value="Semi-detached">Semi-detached</option>
+                                                <option value="Terraced">Terraced</option>
+                                                <option value="Flat or maisonette">Flat or maisonette</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-step" data-title="How should we contact you?">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred contact method *</label>
+                                    <select name="contact_preference" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
+                                        <option value="" disabled selected>Select an option</option>
+                                        <option value="Phone call">Phone call</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Either">Either is fine</option>
+                                    </select>
+                                    <p class="text-xs text-slate-400 pt-4 leading-relaxed">
+                                        Your information is secure. By submitting you agree to our
+                                        <button type="button" onclick="openModal('termsModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Terms of Service</button>
+                                        and
+                                        <button type="button" onclick="openModal('privacyModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Privacy Policy</button>.
+                                    </p>
+                                </div>
+
+                                <p id="formError" class="text-red-500 text-sm hidden">Please complete this step before continuing.</p>
+                                <div class="flex flex-col sm:flex-row gap-3 pt-1">
+                                    <button type="button" id="backBtn" onclick="changeStep(-1)" class="hidden sm:w-auto justify-center bg-white text-slate-700 border border-slate-200 hover:border-teal-600 font-bold px-6 py-4 rounded-xl transition-all">Back</button>
+                                    <button type="button" id="nextBtn" onclick="changeStep(1)" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                                        Continue
+                                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                                    </button>
+                                    <button type="submit" id="submitBtn" class="hidden w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl items-center justify-center gap-2">
+                                        <span id="submitText">Confirm My Valuation</span>
+                                        <i data-lucide="arrow-right" class="w-5 h-5" id="submitIcon"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="heroCoverageTool" class="hero-tool hidden p-5 sm:p-6 space-y-4 bg-slate-50">
+                            <div class="relative rounded-2xl border border-slate-100 bg-white overflow-hidden h-72">
                                 <div id="heroMap" class="hero-map"></div>
                                 <div class="absolute left-4 top-4 z-10 bg-white/95 backdrop-blur rounded-2xl p-3 border border-slate-100 shadow-lg">
                                     <div class="flex items-center gap-3 text-xs font-bold">
@@ -173,186 +277,23 @@ if (window.location.pathname.endsWith("index.html")) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="rounded-2xl border border-slate-100 overflow-hidden">
-                                <div class="grid grid-cols-3">
-                                    <button type="button" class="mini-tool-tab active px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroCoverageTool', this)">Check area</button>
-                                    <button type="button" class="mini-tool-tab px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroAgentTool', this)">Find agent</button>
-                                    <button type="button" class="mini-tool-tab px-3 py-3 text-xs sm:text-sm font-bold text-slate-600" onclick="showHeroTool('heroEstimateTool', this)">Estimate</button>
-                                </div>
-                                <div class="p-4 bg-slate-50">
-                                    <div id="heroCoverageTool" class="hero-tool space-y-3">
-                                        <label class="block text-xs font-bold uppercase text-slate-500">Check your postcode</label>
-                                        <div class="flex gap-2">
-                                            <input id="heroCoveragePostcode" type="text" placeholder="BR1 1AA" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
-                                            <button type="button" onclick="heroCheckCoverage()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Check</button>
-                                        </div>
-                                        <p id="heroCoverageResult" class="text-sm text-slate-600">London and Kent are highlighted on the map.</p>
-                                    </div>
-                                    <div id="heroAgentTool" class="hero-tool hidden space-y-3">
-                                        <label class="block text-xs font-bold uppercase text-slate-500">Find estate agents nearby</label>
-                                        <div class="flex gap-2">
-                                            <input id="heroAgentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
-                                            <button type="button" onclick="heroSearchAgents()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Search</button>
-                                        </div>
-                                        <p class="text-sm text-slate-600">Live results appear in the Local Agent Finder below.</p>
-                                    </div>
-                                    <div id="heroEstimateTool" class="hero-tool hidden space-y-3">
-                                        <label class="block text-xs font-bold uppercase text-slate-500">Quick property estimate</label>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <input id="heroEstimatePostcode" type="text" placeholder="Postcode" class="uppercase border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
-                                            <input id="heroEstimateBeds" type="number" min="1" max="8" value="3" class="border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
-                                        </div>
-                                        <button type="button" onclick="heroQuickEstimate()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4 py-3">Estimate now</button>
-                                        <p id="heroEstimateResult" class="text-sm text-slate-600">A quick guide range will appear here.</p>
-                                    </div>
-                                </div>
+                            <label class="block text-xs font-bold uppercase text-slate-500">Check your postcode</label>
+                            <div class="flex gap-2">
+                                <input id="heroCoveragePostcode" type="text" placeholder="ME14 1XX" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                <button type="button" onclick="heroCheckCoverage()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Check</button>
                             </div>
+                            <p id="heroCoverageResult" class="text-sm text-slate-600">London and Kent are highlighted on the map.</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lead Capture -->
-    <section id="valuation" class="py-20 bg-slate-50 relative">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10 reveal">
-                <div class="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                    <i data-lucide="tag" class="w-4 h-4"></i>
-                    Limited Time - Currently Free
-                </div>
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Get Your Property Valuation</h2>
-                <p class="text-lg text-slate-600 max-w-2xl mx-auto">A short conversation-style form. One thing at a time, then we take it from there.</p>
-            </div>
-            <div class="bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden reveal">
-                <div class="grid lg:grid-cols-5">
-                    <div class="lg:col-span-3 p-6 sm:p-8 md:p-12">
-                        <div class="flex items-center justify-between mb-8 gap-4">
-                            <div>
-                                <p id="formStepLabel" class="text-xs font-bold uppercase text-teal-700 mb-2">Step 1 of 7</p>
-                                <h3 id="formTitle" class="font-serif text-3xl font-bold text-navy-950">Let's start with your name.</h3>
+                        <div id="heroAgentTool" class="hero-tool hidden p-5 sm:p-6 space-y-4 bg-slate-50">
+                            <div class="relative rounded-2xl border border-slate-100 bg-white overflow-hidden h-72">
+                                <div id="heroAgentMap" class="hero-map"></div>
                             </div>
-                            <div class="hidden sm:flex w-14 h-14 bg-teal-50 rounded-full items-center justify-center">
-                                <i data-lucide="message-circle" class="w-7 h-7 text-teal-700"></i>
+                            <label class="block text-xs font-bold uppercase text-slate-500">Find estate agents nearby</label>
+                            <div class="flex gap-2">
+                                <input id="heroAgentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                <button type="button" onclick="heroSearchAgents()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Search</button>
                             </div>
-                        </div>
-                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-8">
-                            <div id="formProgress" class="h-full bg-teal-800 rounded-full transition-all duration-300" style="width:14%;"></div>
-                        </div>
-                        <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-6">
-                            <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
-                            <input type="hidden" name="subject" value="New Homeowner Enquiry - Agent Navigator">
-                            <input type="hidden" name="from_name" value="Agent Navigator Website">
-                            <input type="hidden" name="source" value="Conversational homepage form">
-
-                            <div class="form-step active" data-title="Let's start with your name.">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">What's your name? *</label>
-                                <input type="text" name="name" required placeholder="John Smith" autocomplete="name" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
-                            </div>
-                            <div class="form-step" data-title="And your best number?">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">And your best number? *</label>
-                                <input type="tel" name="phone" required placeholder="07700 900000" autocomplete="tel" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
-                            </div>
-                            <div class="form-step" data-title="Where should we send confirmation?">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">Email address *</label>
-                                <input type="email" name="email" required placeholder="john@example.com" autocomplete="email" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base transition-all">
-                            </div>
-                            <div class="form-step" data-title="Which postcode is the property in?">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">Property postcode *</label>
-                                <input type="text" name="postcode" required placeholder="e.g. BR1 1AA" autocomplete="postal-code" class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base uppercase transition-all" oninput="mirrorPostcode(this.value)">
-                                <p id="leadCoverageHint" class="text-sm text-slate-500 mt-3">We currently serve London and Kent, but we can still help if you are outside our coverage.</p>
-                            </div>
-                            <div class="form-step" data-title="When are you available for us to reach out?">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">Best time to contact you *</label>
-                                <select name="availability" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
-                                    <option value="" disabled selected>Select a time</option>
-                                    <option value="Weekday morning">Weekday morning</option>
-                                    <option value="Weekday afternoon">Weekday afternoon</option>
-                                    <option value="Weekday evening">Weekday evening</option>
-                                    <option value="Weekend">Weekend</option>
-                                </select>
-                            </div>
-                            <div class="form-step" data-title="What best describes where you are right now?">
-                                <div class="grid sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Selling timeframe *</label>
-                                        <select name="selling_timeframe" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
-                                            <option value="" disabled selected>Select one</option>
-                                            <option value="Ready now">Ready now</option>
-                                            <option value="Within 3 months">Within 3 months</option>
-                                            <option value="3 to 6 months">3 to 6 months</option>
-                                            <option value="Just curious">Just curious</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Property type *</label>
-                                        <select name="property_type" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
-                                            <option value="" disabled selected>Select one</option>
-                                            <option value="Detached">Detached</option>
-                                            <option value="Semi-detached">Semi-detached</option>
-                                            <option value="Terraced">Terraced</option>
-                                            <option value="Flat or maisonette">Flat or maisonette</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-step" data-title="How should we contact you?">
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred contact method *</label>
-                                <select name="contact_preference" required class="w-full border border-slate-200 rounded-xl px-4 py-4 text-slate-800 text-base bg-white transition-all">
-                                    <option value="" disabled selected>Select an option</option>
-                                    <option value="Phone call">Phone call</option>
-                                    <option value="Email">Email</option>
-                                    <option value="Either">Either is fine</option>
-                                </select>
-                                <p class="text-xs text-slate-400 pt-4 leading-relaxed">
-                                    Your information is secure. By submitting you agree to our
-                                    <button type="button" onclick="openModal('termsModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Terms of Service</button>
-                                    and
-                                    <button type="button" onclick="openModal('privacyModal')" style="color:#0f766e;text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-size:inherit;font-family:inherit;">Privacy Policy</button>.
-                                </p>
-                            </div>
-
-                            <p id="formError" class="text-red-500 text-sm hidden">Please complete this step before continuing.</p>
-                            <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                                <button type="button" id="backBtn" onclick="changeStep(-1)" class="hidden sm:w-auto justify-center bg-white text-slate-700 border border-slate-200 hover:border-teal-600 font-bold px-6 py-4 rounded-xl transition-all">Back</button>
-                                <button type="button" id="nextBtn" onclick="changeStep(1)" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-                                    Continue
-                                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                                </button>
-                                <button type="submit" id="submitBtn" class="hidden w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl items-center justify-center gap-2">
-                                    <span id="submitText">Confirm My Valuation</span>
-                                    <i data-lucide="arrow-right" class="w-5 h-5" id="submitIcon"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="lg:col-span-2 bg-gradient-to-br from-teal-800 to-navy-900 p-8 md:p-12 text-white flex flex-col justify-center">
-                        <div class="space-y-8">
-                            <div>
-                                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4">
-                                    <i data-lucide="shield-check" class="w-6 h-6"></i>
-                                </div>
-                                <h3 class="font-serif text-2xl font-bold mb-3">Trust is built into the process.</h3>
-                                <p class="text-teal-100 text-sm leading-relaxed">We verify homeowner details before matching, so agents know each enquiry is genuine and homeowners get focused attention.</p>
-                            </div>
-                            <div class="space-y-4">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">1</span>
-                                    <span class="font-semibold">Contact details received</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">2</span>
-                                    <span class="font-semibold">Ownership check arranged</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <span class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center text-sm font-bold">3</span>
-                                    <span class="font-semibold">Local agent matched</span>
-                                </div>
-                            </div>
-                            <div class="bg-white/10 rounded-2xl p-5 border border-white/10">
-                                <p class="text-sm text-teal-100">After submitting, you will see instant confirmation and we will follow up by your preferred contact method.</p>
-                            </div>
+                            <p class="text-sm text-slate-600">Live results appear in the Local Agent Finder below.</p>
                         </div>
                     </div>
                 </div>
@@ -870,9 +811,9 @@ if (window.location.pathname.endsWith("index.html")) {
     </footer>
 
     <script>
-        const coverageAreas = {
-            London: ['E','EC','N','NW','SE','SW','W','WC','BR','CR','DA','EN','HA','IG','KT','RM','SM','TW','UB','WD'],
-            Kent: ['BR','CT','DA','ME','TN']
+        const coverageDistricts = {
+            London: ['E','EC','N','NW','SE','SW','W','WC','CR','EN','HA','IG','RM','SM','TW','UB','WD','BR1','BR2','BR3','BR4','BR5','BR6','BR7','DA5','DA6','DA7','DA8','KT1','KT2','KT3','KT4','KT5','KT6','KT9'],
+            Kent: ['CT','ME','TN','BR8','DA1','DA2','DA3','DA4','DA9','DA10','DA11','DA12','DA13']
         };
         const areaProfiles = {
             London: { label:'London', base:620000, pricePerSqm:7350, growth:.035 },
@@ -881,8 +822,8 @@ if (window.location.pathname.endsWith("index.html")) {
         };
         const agentApiEndpoint = window.AGENT_NAVIGATOR_AGENT_API || '';
         const landRegistryEndpoint = window.AGENT_NAVIGATOR_LAND_REGISTRY_API || 'https://landregistry.data.gov.uk/data/ppi/transaction-record.json';
-        const londonBoundary = [[51.70,-0.51],[51.69,0.29],[51.58,0.34],[51.38,0.20],[51.27,-0.08],[51.29,-0.48],[51.47,-0.52]];
-        const kentBoundary = [[51.49,0.14],[51.49,1.45],[51.28,1.45],[51.04,1.28],[50.90,0.78],[51.00,0.22],[51.22,0.02]];
+        const londonBoundary = [[51.686,-0.510],[51.690,-0.275],[51.650,-0.120],[51.660,0.030],[51.620,0.180],[51.575,0.335],[51.455,0.315],[51.365,0.190],[51.285,-0.055],[51.300,-0.260],[51.335,-0.405],[51.470,-0.510]];
+        const kentBoundary = [[51.482,0.159],[51.485,0.480],[51.446,0.740],[51.414,0.982],[51.380,1.210],[51.300,1.430],[51.180,1.420],[51.090,1.260],[50.955,1.030],[50.910,0.760],[50.975,0.520],[51.060,0.240],[51.185,0.050],[51.330,0.020]];
         let heroMapInstance;
         let coverageMapInstance;
         let coverageLayerRefs = {};
@@ -920,8 +861,10 @@ if (window.location.pathname.endsWith("index.html")) {
 
         function postcodeOutward(postcode) {
             const compact = String(postcode || '').toUpperCase().replace(/\s+/g, '');
-            const match = compact.match(/^[A-Z]{1,2}\d[A-Z\d]?/);
-            return match ? match[0] : '';
+            const fullMatch = compact.match(/^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$/);
+            if (fullMatch) return fullMatch[1];
+            const outwardMatch = compact.match(/^[A-Z]{1,2}\d[A-Z\d]?$/);
+            return outwardMatch ? outwardMatch[0] : '';
         }
 
         function postcodeArea(postcode) {
@@ -930,12 +873,19 @@ if (window.location.pathname.endsWith("index.html")) {
             return match ? match[0] : '';
         }
 
+        function postcodeDistrict(postcode) {
+            const outward = postcodeOutward(postcode);
+            const match = outward.match(/^([A-Z]{1,2}\d{1,2})/);
+            return match ? match[1] : outward;
+        }
+
         function getCoverage(postcode) {
             const area = postcodeArea(postcode);
-            if (!area) return { covered:false, region:'Unknown', area:'' };
-            if (coverageAreas.London.includes(area)) return { covered:true, region:'London', area };
-            if (coverageAreas.Kent.includes(area)) return { covered:true, region:'Kent', area };
-            return { covered:false, region:inferOutsideRegion(area), area };
+            const district = postcodeDistrict(postcode);
+            if (!area) return { covered:false, region:'Unknown', area:'', district:'' };
+            if (coverageDistricts.Kent.includes(district) || coverageDistricts.Kent.includes(area)) return { covered:true, region:'Kent', area, district };
+            if (coverageDistricts.London.includes(district) || coverageDistricts.London.includes(area)) return { covered:true, region:'London', area, district };
+            return { covered:false, region:inferOutsideRegion(area), area, district };
         }
 
         function inferOutsideRegion(area) {
@@ -964,7 +914,7 @@ if (window.location.pathname.endsWith("index.html")) {
         }
 
         function mirrorPostcode(value) {
-            ['coveragePostcode','agentPostcode','estimatePostcode'].forEach(function(id) {
+            ['coveragePostcode','agentPostcode','estimatePostcode','heroCoveragePostcode','heroAgentPostcode'].forEach(function(id) {
                 const input = document.getElementById(id);
                 if (input && !input.value) input.value = value.toUpperCase();
             });
@@ -1077,7 +1027,7 @@ if (window.location.pathname.endsWith("index.html")) {
 
         function initMaps() {
             if (!window.L) {
-                ['heroMap','coverageMap'].forEach(function(id) {
+                ['heroMap','heroAgentMap','coverageMap'].forEach(function(id) {
                     const el = document.getElementById(id);
                     if (el) el.innerHTML = '<div class="h-full w-full flex items-center justify-center p-6 text-center text-sm text-slate-500">Interactive map loads when map services are available.</div>';
                 });
@@ -1085,6 +1035,7 @@ if (window.location.pathname.endsWith("index.html")) {
             }
 
             heroMapInstance = createCoverageMap('heroMap', { zoomControl:false, attributionControl:false, compact:true });
+            createCoverageMap('heroAgentMap', { zoomControl:false, attributionControl:false, compact:true });
             coverageMapInstance = createCoverageMap('coverageMap', { zoomControl:true, attributionControl:true, compact:false });
             setTimeout(function() {
                 if (heroMapInstance) heroMapInstance.invalidateSize();
@@ -1343,6 +1294,11 @@ if (window.location.pathname.endsWith("index.html")) {
             document.querySelectorAll('.mini-tool-tab').forEach(function(tab) {
                 tab.classList.toggle('active', tab === button);
             });
+            setTimeout(function() {
+                Object.keys(coverageLayerRefs).forEach(function(key) {
+                    if (coverageLayerRefs[key] && coverageLayerRefs[key].map) coverageLayerRefs[key].map.invalidateSize();
+                });
+            }, 80);
         }
 
         function heroCheckCoverage() {
@@ -1374,31 +1330,6 @@ if (window.location.pathname.endsWith("index.html")) {
             const agentInput = document.getElementById('agentPostcode');
             if (agentInput) agentInput.value = postcode;
             searchLocalAgents(postcode, true);
-        }
-
-        function heroQuickEstimate() {
-            const postcode = (document.getElementById('heroEstimatePostcode').value || document.getElementById('heroCoveragePostcode').value || '').trim().toUpperCase();
-            const beds = Number(document.getElementById('heroEstimateBeds').value || 3);
-            const estimate = calculateEstimatedValue({
-                postcode:postcode,
-                type:'terraced',
-                beds:beds,
-                condition:'standard',
-                area:0,
-                lastSoldPrice:0,
-                lastSoldYear:0
-            });
-            const result = document.getElementById('heroEstimateResult');
-            if (result) {
-                const low = estimate.estimate * .82;
-                const high = estimate.estimate * 1.18;
-                result.textContent = money(low) + ' - ' + money(high) + ' guide range';
-                result.className = 'text-sm text-teal-800 font-bold';
-            }
-            const fullPostcode = document.getElementById('estimatePostcode');
-            const fullBeds = document.getElementById('estimateBeds');
-            if (fullPostcode) fullPostcode.value = postcode;
-            if (fullBeds) fullBeds.value = beds;
         }
 
         function calculateEstimatedValue(options) {
