@@ -14,7 +14,9 @@ if (window.location.pathname.endsWith("index.html")) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -38,13 +40,20 @@ if (window.location.pathname.endsWith("index.html")) {
         .compass-bg{background:radial-gradient(circle at 75% 20%,rgba(186,230,253,.34),transparent 34%),linear-gradient(180deg,#ffffff 0%,#f8fafc 100%);}
         .step-line{background:linear-gradient(90deg,transparent,#0c4a6e,transparent);}
         .premium-panel{box-shadow:0 30px 80px rgba(15,23,42,.12);}
-        .nav-action{border:1px solid #e2e8f0;border-radius:999px;padding:.65rem 1rem;transition:all .25s ease;}
-        .nav-action:hover{border-color:#0369a1;background:#f0f9ff;color:#075985;}
+        .nav-action{position:relative;padding:.5rem .15rem;transition:color .2s ease;}
+        .nav-action:after{content:"";position:absolute;left:0;right:0;bottom:.2rem;height:2px;background:#075985;transform:scaleX(0);transform-origin:left;transition:transform .2s ease;}
+        .nav-action:hover{color:#075985;}
+        .nav-action:hover:after{transform:scaleX(1);}
         .quick-tile{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
         .quick-tile:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(15,23,42,.1);border-color:#7dd3fc;}
-        .hero-dashboard{animation:dashboardFloat 7s ease-in-out infinite;}
-        .scan-line{animation:scanLine 4s ease-in-out infinite;}
-        .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+        .hero-dashboard{transform:translateZ(0);}
+        .hero-map,.coverage-map{height:100%;min-height:260px;z-index:1;}
+        .coverage-map{min-height:430px;}
+        .leaflet-control-attribution{font-size:9px;}
+        .mini-tool-tab.active{background:#075985;color:#fff;border-color:#075985;}
+        .agent-card{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
+        .agent-card:hover{transform:translateY(-2px);border-color:#bae6fd;box-shadow:0 14px 32px rgba(15,23,42,.08);}
+        .reveal{opacity:0;transform:translateY(12px);transition:opacity .45s ease,transform .45s ease;}
         .reveal.is-visible{opacity:1;transform:translateY(0);}
         .form-step{display:none;}
         .form-step.active{display:block;animation:stepIn .35s ease both;}
@@ -52,11 +61,9 @@ if (window.location.pathname.endsWith("index.html")) {
         .coverage-pin:hover,.coverage-pin.active{transform:translateY(-3px);background:#075985;color:#fff;}
         .tool-tab.active{background:#075985;color:#fff;border-color:#075985;}
         .map-grid{background-image:linear-gradient(rgba(14,165,233,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,.12) 1px,transparent 1px);background-size:34px 34px;}
-        @keyframes dashboardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-        @keyframes scanLine{0%,100%{transform:translateX(-18%);opacity:.35}50%{transform:translateX(18%);opacity:.9}}
         @keyframes stepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
         @media (prefers-reduced-motion:reduce){
-            .hero-dashboard,.scan-line,.reveal,.form-step.active{animation:none;transition:none;}
+            .reveal,.form-step.active{animation:none;transition:none;}
             .reveal{opacity:1;transform:none;}
         }
     </style>
@@ -75,6 +82,7 @@ if (window.location.pathname.endsWith("index.html")) {
                     <a href="#coverage" class="nav-action text-slate-600 font-semibold text-sm">Check Coverage</a>
                     <a href="#tools" class="nav-action text-slate-600 font-semibold text-sm">Estimate Value</a>
                     <a href="#agent-search" class="nav-action text-slate-600 font-semibold text-sm">Find Agents</a>
+                    <a href="#faq" class="nav-action text-slate-600 font-semibold text-sm">FAQ</a>
                     <a href="agents.html" class="text-teal-800 font-semibold text-sm px-2">For Estate Agents</a>
                     <a href="#valuation" class="bg-teal-800 hover:bg-teal-900 text-white px-6 py-3 rounded-full font-semibold transition-all shadow-lg shadow-teal-900/10">Start</a>
                 </div>
@@ -89,6 +97,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 <a href="#coverage" class="block text-slate-600 font-medium py-2">Check Coverage</a>
                 <a href="#tools" class="block text-slate-600 font-medium py-2">Estimate Value</a>
                 <a href="#agent-search" class="block text-slate-600 font-medium py-2">Find Agents</a>
+                <a href="#faq" class="block text-slate-600 font-medium py-2">FAQ</a>
                 <a href="agents.html" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
                 <a href="#valuation" class="block bg-teal-800 text-white px-4 py-3 rounded-lg font-semibold text-center mt-4">Start</a>
             </div>
@@ -145,42 +154,57 @@ if (window.location.pathname.endsWith("index.html")) {
                 </div>
                 <div class="relative reveal">
                     <div class="hero-dashboard bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden">
-                        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between gap-4">
                             <div>
-                                <p class="text-xs uppercase text-slate-400 font-bold">Navigator view</p>
-                                <h2 class="font-serif text-2xl font-bold text-navy-950">Verified seller route</h2>
+                                <p class="text-xs uppercase text-slate-400 font-bold">Start here</p>
+                                <h2 class="font-serif text-2xl font-bold text-navy-950">Map, match or estimate</h2>
                             </div>
                             <div class="w-12 h-12 bg-teal-50 rounded-full flex items-center justify-center">
-                                <i data-lucide="radar" class="w-6 h-6 text-teal-700"></i>
+                                <i data-lucide="map" class="w-6 h-6 text-teal-700"></i>
                             </div>
                         </div>
                         <div class="p-6 space-y-5">
-                            <div class="relative map-grid rounded-2xl border border-slate-100 bg-slate-50 overflow-hidden h-72">
-                                <div class="absolute inset-x-10 top-1/2 h-1 bg-teal-700/20 rounded-full scan-line"></div>
-                                <svg viewBox="0 0 420 270" class="absolute inset-0 w-full h-full" role="img" aria-label="Stylised London and Kent coverage map">
-                                    <path d="M100 78 C139 39 201 46 222 93 C247 86 288 93 303 126 C322 170 288 214 235 211 C214 238 157 237 139 206 C86 211 54 179 66 136 C72 113 82 94 100 78Z" fill="#e0f2fe" stroke="#0c4a6e" stroke-width="2"></path>
-                                    <path d="M220 142 C267 135 334 157 360 203 C322 230 255 232 202 205 C212 184 218 165 220 142Z" fill="#dbeafe" stroke="#075985" stroke-width="2"></path>
-                                    <circle cx="165" cy="130" r="30" fill="#0c4a6e" opacity=".9"></circle>
-                                    <circle cx="279" cy="190" r="24" fill="#075985" opacity=".86"></circle>
-                                    <path d="M164 100 L164 63 M164 160 L164 202 M134 130 L88 130 M195 130 L249 130" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity=".8"></path>
-                                </svg>
-                                <div class="absolute left-5 bottom-5 bg-white/95 backdrop-blur rounded-2xl p-4 border border-slate-100 shadow-lg">
-                                    <p class="text-xs text-slate-500 font-semibold">Current coverage</p>
-                                    <p class="font-bold text-navy-950">London &amp; Kent</p>
+                            <div class="relative rounded-2xl border border-slate-100 bg-slate-50 overflow-hidden h-64">
+                                <div id="heroMap" class="hero-map"></div>
+                                <div class="absolute left-4 top-4 z-10 bg-white/95 backdrop-blur rounded-2xl p-3 border border-slate-100 shadow-lg">
+                                    <div class="flex items-center gap-3 text-xs font-bold">
+                                        <span class="inline-flex items-center gap-1 text-teal-800"><span class="w-3 h-3 rounded-full bg-teal-800"></span>London</span>
+                                        <span class="inline-flex items-center gap-1 text-sky-700"><span class="w-3 h-3 rounded-full bg-sky-500"></span>Kent</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-3 gap-3">
-                                <div class="rounded-2xl bg-slate-50 p-4 border border-slate-100">
-                                    <p class="text-xs text-slate-500">Step 1</p>
-                                    <p class="font-bold text-navy-950">Details</p>
+                            <div class="rounded-2xl border border-slate-100 overflow-hidden">
+                                <div class="grid grid-cols-3">
+                                    <button type="button" class="mini-tool-tab active px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroCoverageTool', this)">Check area</button>
+                                    <button type="button" class="mini-tool-tab px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroAgentTool', this)">Find agent</button>
+                                    <button type="button" class="mini-tool-tab px-3 py-3 text-xs sm:text-sm font-bold text-slate-600" onclick="showHeroTool('heroEstimateTool', this)">Estimate</button>
                                 </div>
-                                <div class="rounded-2xl bg-slate-50 p-4 border border-slate-100">
-                                    <p class="text-xs text-slate-500">Step 2</p>
-                                    <p class="font-bold text-navy-950">Verify</p>
-                                </div>
-                                <div class="rounded-2xl bg-teal-800 p-4 text-white">
-                                    <p class="text-xs text-teal-100">Step 3</p>
-                                    <p class="font-bold">Match</p>
+                                <div class="p-4 bg-slate-50">
+                                    <div id="heroCoverageTool" class="hero-tool space-y-3">
+                                        <label class="block text-xs font-bold uppercase text-slate-500">Check your postcode</label>
+                                        <div class="flex gap-2">
+                                            <input id="heroCoveragePostcode" type="text" placeholder="BR1 1AA" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                            <button type="button" onclick="heroCheckCoverage()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Check</button>
+                                        </div>
+                                        <p id="heroCoverageResult" class="text-sm text-slate-600">London and Kent are highlighted on the map.</p>
+                                    </div>
+                                    <div id="heroAgentTool" class="hero-tool hidden space-y-3">
+                                        <label class="block text-xs font-bold uppercase text-slate-500">Find estate agents nearby</label>
+                                        <div class="flex gap-2">
+                                            <input id="heroAgentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                            <button type="button" onclick="heroSearchAgents()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Search</button>
+                                        </div>
+                                        <p class="text-sm text-slate-600">Live results appear in the Local Agent Finder below.</p>
+                                    </div>
+                                    <div id="heroEstimateTool" class="hero-tool hidden space-y-3">
+                                        <label class="block text-xs font-bold uppercase text-slate-500">Quick property estimate</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <input id="heroEstimatePostcode" type="text" placeholder="Postcode" class="uppercase border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                            <input id="heroEstimateBeds" type="number" min="1" max="8" value="3" class="border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
+                                        </div>
+                                        <button type="button" onclick="heroQuickEstimate()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4 py-3">Estimate now</button>
+                                        <p id="heroEstimateResult" class="text-sm text-slate-600">A quick guide range will appear here.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -345,22 +369,15 @@ if (window.location.pathname.endsWith("index.html")) {
                         <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Area Coverage</h2>
                         <p class="text-lg text-slate-600 max-w-2xl">We currently cover London and Kent. If your area is outside our active coverage, we will still do our best to connect you with a strong local agent.</p>
                     </div>
-                    <div class="relative rounded-3xl premium-panel border border-slate-100 bg-slate-50 overflow-hidden min-h-[430px] map-grid">
-                        <svg viewBox="0 0 680 430" class="absolute inset-0 w-full h-full" role="img" aria-label="Interactive coverage map">
-                            <path d="M130 105 C184 50 286 58 326 126 C373 108 461 124 490 190 C529 277 465 349 376 341 C331 390 234 382 204 325 C124 330 68 278 87 203 C94 163 106 130 130 105Z" fill="#e0f2fe" stroke="#0c4a6e" stroke-width="3"></path>
-                            <path d="M330 220 C414 200 544 236 600 330 C534 381 410 383 314 332 C326 291 333 258 330 220Z" fill="#dbeafe" stroke="#075985" stroke-width="3"></path>
-                            <path d="M505 103 C551 95 603 119 625 160 C603 195 545 211 496 188 C506 159 510 132 505 103Z" fill="#fff7ed" stroke="#fed7aa" stroke-width="2"></path>
-                        </svg>
-                        <button type="button" onclick="selectCoverage('London')" class="coverage-pin active absolute left-[30%] top-[38%] bg-white text-teal-800 border border-teal-100 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
-                            London
-                        </button>
-                        <button type="button" onclick="selectCoverage('Kent')" class="coverage-pin absolute left-[58%] top-[68%] bg-white text-teal-800 border border-teal-100 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
-                            Kent
-                        </button>
-                        <button type="button" onclick="selectCoverage('Essex')" class="coverage-pin absolute right-[9%] top-[31%] bg-white text-slate-600 border border-slate-200 shadow-lg rounded-full px-4 py-2 font-bold text-sm">
-                            Essex
-                        </button>
-                        <div id="coverageMapCopy" class="absolute left-5 right-5 bottom-5 bg-white/95 backdrop-blur rounded-2xl p-5 border border-slate-100 shadow-lg">
+                    <div class="relative rounded-3xl premium-panel border border-slate-100 bg-slate-50 overflow-hidden min-h-[430px]">
+                        <div id="coverageMap" class="coverage-map"></div>
+                        <div class="absolute left-5 top-5 z-10 bg-white/95 backdrop-blur rounded-2xl p-4 border border-slate-100 shadow-lg">
+                            <div class="flex flex-wrap items-center gap-4 text-xs font-bold">
+                                <button type="button" onclick="selectCoverage('London')" class="coverage-pin active bg-teal-50 text-teal-800 border border-teal-100 rounded-full px-3 py-2">London</button>
+                                <button type="button" onclick="selectCoverage('Kent')" class="coverage-pin bg-sky-50 text-sky-700 border border-sky-100 rounded-full px-3 py-2">Kent</button>
+                            </div>
+                        </div>
+                        <div id="coverageMapCopy" class="absolute left-5 right-5 bottom-5 z-10 bg-white/95 backdrop-blur rounded-2xl p-5 border border-slate-100 shadow-lg">
                             <p class="text-sm font-bold text-teal-800 mb-1">London coverage active</p>
                             <p class="text-sm text-slate-600">Enter a postcode to check whether we can match you directly or help you find a local agent nearby.</p>
                         </div>
@@ -380,11 +397,12 @@ if (window.location.pathname.endsWith("index.html")) {
                     </div>
                     <div id="agent-search" class="bg-slate-50 rounded-3xl border border-slate-100 p-6 md:p-8">
                         <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Local Agent Finder</h3>
-                        <p class="text-slate-600 text-sm mb-5">Live outside our current coverage? Search your postcode and we will prepare the best nearby matches.</p>
-                        <div class="flex gap-3">
+                        <p class="text-slate-600 text-sm mb-5">Search a postcode to see estate agencies listed nearby using live open map data where available.</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
                             <input id="agentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm transition-all bg-white">
-                            <button type="button" onclick="searchLocalAgents()" class="bg-white text-teal-800 border border-teal-100 hover:border-teal-700 rounded-xl px-4 flex items-center justify-center" aria-label="Find local agents">
-                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            <button type="button" onclick="searchLocalAgents()" class="bg-teal-800 hover:bg-teal-900 text-white rounded-xl px-5 py-3 flex items-center justify-center gap-2 font-bold" aria-label="Search local agents">
+                                <i data-lucide="search" class="w-5 h-5"></i>
+                                Search
                             </button>
                         </div>
                         <div id="agentResults" class="mt-5 space-y-3"></div>
@@ -455,8 +473,9 @@ if (window.location.pathname.endsWith("index.html")) {
                         <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6 border border-slate-100">
                             <p class="text-sm font-semibold text-teal-800 mb-2">Estimated range</p>
                             <div id="estimateResult" class="font-serif text-3xl font-bold text-navy-950 mb-4">Enter details</div>
-                            <p id="estimateContext" class="text-sm text-slate-600 leading-relaxed">This is a guide only and may not reflect the true market value of your home. A local agent valuation is still recommended.</p>
-                            <p class="text-xs text-slate-400 mt-5">Where sale-history data is available, the tool may reference HM Land Registry Price Paid Data. Contains HM Land Registry data &copy; Crown copyright and database right 2021, licensed under the Open Government Licence v3.0.</p>
+	                            <p id="estimateContext" class="text-sm text-slate-600 leading-relaxed">This is a guide only and may not reflect the true market value of your home. A local agent valuation is still recommended.</p>
+	                            <p class="text-xs text-teal-800 font-semibold mt-4">For a more accurate estimate, fill out as much information as possible, especially floor area, condition, last sold price and last sold year.</p>
+	                            <p class="text-xs text-slate-400 mt-5">Where sale-history data is available, the tool may reference HM Land Registry Price Paid Data. Contains HM Land Registry data &copy; Crown copyright and database right 2021, licensed under the Open Government Licence v3.0.</p>
                         </div>
                     </div>
                 </div>
@@ -705,7 +724,7 @@ if (window.location.pathname.endsWith("index.html")) {
     </div>
 
     <!-- FAQ -->
-    <section class="py-24 bg-white">
+    <section id="faq" class="py-24 bg-white">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12 reveal">
                 <h2 class="font-serif text-4xl font-bold text-navy-950 mb-4">Common Questions</h2>
@@ -858,11 +877,16 @@ if (window.location.pathname.endsWith("index.html")) {
         const areaProfiles = {
             London: { label:'London', base:620000, pricePerSqm:7350, growth:.035 },
             Kent: { label:'Kent', base:390000, pricePerSqm:4100, growth:.032 },
-            Essex: { label:'Essex', base:415000, pricePerSqm:4300, growth:.031 },
             Other: { label:'your area', base:340000, pricePerSqm:3600, growth:.028 }
         };
         const agentApiEndpoint = window.AGENT_NAVIGATOR_AGENT_API || '';
         const landRegistryEndpoint = window.AGENT_NAVIGATOR_LAND_REGISTRY_API || 'https://landregistry.data.gov.uk/data/ppi/transaction-record.json';
+        const londonBoundary = [[51.70,-0.51],[51.69,0.29],[51.58,0.34],[51.38,0.20],[51.27,-0.08],[51.29,-0.48],[51.47,-0.52]];
+        const kentBoundary = [[51.49,0.14],[51.49,1.45],[51.28,1.45],[51.04,1.28],[50.90,0.78],[51.00,0.22],[51.22,0.02]];
+        let heroMapInstance;
+        let coverageMapInstance;
+        let coverageLayerRefs = {};
+        let ticking = false;
         let currentStep = 0;
 
         function money(value) {
@@ -1051,20 +1075,79 @@ if (window.location.pathname.endsWith("index.html")) {
             }
         }
 
+        function initMaps() {
+            if (!window.L) {
+                ['heroMap','coverageMap'].forEach(function(id) {
+                    const el = document.getElementById(id);
+                    if (el) el.innerHTML = '<div class="h-full w-full flex items-center justify-center p-6 text-center text-sm text-slate-500">Interactive map loads when map services are available.</div>';
+                });
+                return;
+            }
+
+            heroMapInstance = createCoverageMap('heroMap', { zoomControl:false, attributionControl:false, compact:true });
+            coverageMapInstance = createCoverageMap('coverageMap', { zoomControl:true, attributionControl:true, compact:false });
+            setTimeout(function() {
+                if (heroMapInstance) heroMapInstance.invalidateSize();
+                if (coverageMapInstance) coverageMapInstance.invalidateSize();
+            }, 250);
+        }
+
+        function createCoverageMap(id, options) {
+            const el = document.getElementById(id);
+            if (!el) return null;
+            const map = L.map(id, {
+                scrollWheelZoom:false,
+                zoomControl:options.zoomControl,
+                attributionControl:options.attributionControl,
+                dragging:true,
+                tap:true
+            }).setView([51.32, 0.34], options.compact ? 8 : 8);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom:18,
+                attribution:'&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            const london = L.polygon(londonBoundary, {
+                color:'#075985',
+                fillColor:'#075985',
+                fillOpacity:.24,
+                weight:2
+            }).addTo(map).bindTooltip('London coverage', { sticky:true });
+
+            const kent = L.polygon(kentBoundary, {
+                color:'#0ea5e9',
+                fillColor:'#38bdf8',
+                fillOpacity:.24,
+                weight:2
+            }).addTo(map).bindTooltip('Kent coverage', { sticky:true });
+
+            coverageLayerRefs[id] = { London:london, Kent:kent, map:map };
+            london.on('click', function(){ selectCoverage('London'); });
+            kent.on('click', function(){ selectCoverage('Kent'); });
+            map.fitBounds(L.latLngBounds(londonBoundary.concat(kentBoundary)), { padding:[22,22] });
+            return map;
+        }
+
         function selectCoverage(region) {
             document.querySelectorAll('.coverage-pin').forEach(function(pin) {
                 pin.classList.toggle('active', pin.textContent.trim() === region);
             });
             const copy = {
                 London: ['London coverage active', 'We cover London postcodes including central, north, south, east, west, and key outer London areas.'],
-                Kent: ['Kent coverage active', 'We cover Kent postcodes including Bromley borders, Dartford, Medway, Canterbury, Tonbridge and surrounding towns.'],
-                Essex: ['Outside active coverage', 'Essex is not currently in direct coverage. Search your postcode and we will help you find a strong local agent.']
+                Kent: ['Kent coverage active', 'We cover Kent postcodes including Bromley borders, Dartford, Medway, Canterbury, Tonbridge and surrounding towns.']
             };
             const panel = document.getElementById('coverageMapCopy');
             const selected = copy[region] || copy.London;
             if (panel) {
                 panel.innerHTML = '<p class="text-sm font-bold text-teal-800 mb-1">' + selected[0] + '</p><p class="text-sm text-slate-600">' + selected[1] + '</p>';
             }
+            Object.keys(coverageLayerRefs).forEach(function(key) {
+                const ref = coverageLayerRefs[key];
+                if (!ref || !ref.map || !ref[region]) return;
+                ref[region].bringToFront();
+                ref.map.fitBounds(ref[region].getBounds(), { padding:[35,35], maxZoom:9 });
+            });
         }
 
         function checkCoverage() {
@@ -1080,18 +1163,20 @@ if (window.location.pathname.endsWith("index.html")) {
             result.classList.remove('hidden');
             if (status.covered) {
                 result.className = 'mt-5 rounded-2xl p-5 border border-teal-100 bg-teal-50 text-sm text-teal-800';
-                result.innerHTML = '<strong>' + postcode + ' is covered.</strong><br>We can match you with a local estate agent in ' + status.region + '. <a href="#valuation" class="underline font-bold">Start your valuation</a>.';
+                result.innerHTML = '<strong>' + postcode + ' is covered.</strong><br>We can match you with a local estate agent in ' + status.region + '.<div class="mt-4 flex flex-col sm:flex-row gap-2"><a href="#valuation" class="bg-teal-800 text-white font-bold px-4 py-2 rounded-xl text-center">Start your valuation</a><button type="button" onclick="searchLocalAgents(\'' + postcode.replace(/'/g, '') + '\')" class="bg-white border border-teal-100 text-teal-800 font-bold px-4 py-2 rounded-xl">Search Local Agents</button></div>';
                 selectCoverage(status.region);
+                const agentInput = document.getElementById('agentPostcode');
+                if (agentInput) agentInput.value = postcode;
             } else {
                 result.className = 'mt-5 rounded-2xl p-5 border border-amber-200 bg-amber-50 text-sm text-amber-800';
                 result.innerHTML = '<strong>Live in an area we do not cover?</strong><br>Not a problem. Reach out and we will do our best to match you with a top local agent in ' + status.region + ', or see for yourself below.<div class="mt-4"><button type="button" onclick="searchLocalAgents(\'' + postcode.replace(/'/g, '') + '\')" class="bg-white border border-amber-200 text-amber-900 font-bold px-4 py-2 rounded-xl">Search local agents</button></div>';
-                selectCoverage(status.region === 'Essex' ? 'Essex' : 'London');
+                selectCoverage('London');
                 const agentInput = document.getElementById('agentPostcode');
                 if (agentInput) agentInput.value = postcode;
             }
         }
 
-        async function searchLocalAgents(postcodeOverride) {
+        async function searchLocalAgents(postcodeOverride, shouldScroll) {
             const input = document.getElementById('agentPostcode');
             const results = document.getElementById('agentResults');
             const postcode = String(postcodeOverride || input.value || '').trim().toUpperCase();
@@ -1100,7 +1185,10 @@ if (window.location.pathname.endsWith("index.html")) {
                 results.innerHTML = '<div class="rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">Enter a valid postcode to search local agents.</div>';
                 return;
             }
-            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">Searching local agent matches...</div>';
+            if (shouldScroll !== false) {
+                document.getElementById('agent-search').scrollIntoView({ behavior:'smooth', block:'start' });
+            }
+            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">Searching live estate agency data near ' + escapeHtml(postcode) + '...</div>';
 
             try {
                 let agents = [];
@@ -1108,45 +1196,130 @@ if (window.location.pathname.endsWith("index.html")) {
                     const response = await fetch(agentApiEndpoint + '?postcode=' + encodeURIComponent(postcode));
                     if (response.ok) agents = await response.json();
                 }
-                if (!Array.isArray(agents) || agents.length === 0) agents = fallbackAgents(postcode);
+                if (!Array.isArray(agents) || agents.length === 0) {
+                    const coordinates = await geocodePostcode(postcode);
+                    agents = await fetchOpenStreetMapAgents(coordinates, postcode);
+                }
                 renderAgents(agents, postcode);
             } catch (err) {
-                renderAgents(fallbackAgents(postcode), postcode);
+                results.innerHTML = '<div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800"><strong>Live agent data could not be loaded just now.</strong><br>Try a full postcode, or use the valuation form and we will manually help you find a strong local agent.</div>';
             }
         }
 
-        function fallbackAgents(postcode) {
-            const status = getCoverage(postcode);
-            const region = status.region === 'your area' ? 'Local' : status.region;
-            const area = status.area || 'UK';
-            return [
-                { name: region + ' premium sales specialist', badge:'Best overall fit', score:94, detail:'Strong match profile for homeowners seeking a guided valuation route near ' + area + '.' },
-                { name: region + ' fast-sale specialist', badge:'Speed focused', score:91, detail:'Good fit where timing and active buyer demand are the priority.' },
-                { name: region + ' valuation-led specialist', badge:'Pricing confidence', score:88, detail:'Good fit where pricing strategy and comparable evidence matter most.' }
-            ];
+        async function geocodePostcode(postcode) {
+            const compact = postcode.replace(/\s+/g, '');
+            const fullUrl = 'https://api.postcodes.io/postcodes/' + encodeURIComponent(compact);
+            let response = await fetch(fullUrl);
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.result) return { lat:data.result.latitude, lon:data.result.longitude };
+            }
+            const outcode = postcodeOutward(postcode);
+            response = await fetch('https://api.postcodes.io/outcodes/' + encodeURIComponent(outcode));
+            if (response.ok) {
+                const data = await response.json();
+                if (data && data.result) return { lat:data.result.latitude, lon:data.result.longitude };
+            }
+            throw new Error('Postcode not found');
+        }
+
+        async function fetchOpenStreetMapAgents(origin, postcode) {
+            const query = '[out:json][timeout:18];(' +
+                'node["shop"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+                'way["shop"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+                'relation["shop"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+                'node["office"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+                'way["office"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+                'relation["office"="estate_agent"](around:7000,' + origin.lat + ',' + origin.lon + ');' +
+            ');out center tags 24;';
+            const response = await fetch('https://overpass-api.de/api/interpreter', {
+                method:'POST',
+                headers:{ 'Content-Type':'text/plain;charset=UTF-8' },
+                body:query
+            });
+            if (!response.ok) throw new Error('Open map search failed');
+            const data = await response.json();
+            const seen = new Set();
+            return (data.elements || []).map(function(element) {
+                const tags = element.tags || {};
+                const lat = element.lat || (element.center && element.center.lat);
+                const lon = element.lon || (element.center && element.center.lon);
+                const name = tags.name || tags.operator || 'Estate agency near ' + postcodeOutward(postcode);
+                const key = name.toLowerCase() + '|' + Math.round((lat || 0) * 1000) + '|' + Math.round((lon || 0) * 1000);
+                if (seen.has(key)) return null;
+                seen.add(key);
+                return {
+                    name:name,
+                    distance:lat && lon ? distanceMiles(origin.lat, origin.lon, lat, lon) : null,
+                    address:formatAgentAddress(tags),
+                    phone:tags.phone || tags['contact:phone'] || '',
+                    website:tags.website || tags['contact:website'] || '',
+                    osmUrl:'https://www.openstreetmap.org/' + element.type + '/' + element.id,
+                    source:'OpenStreetMap'
+                };
+            }).filter(Boolean).sort(function(a,b) {
+                return (a.distance || 999) - (b.distance || 999);
+            }).slice(0, 6);
+        }
+
+        function formatAgentAddress(tags) {
+            const parts = [tags['addr:housenumber'], tags['addr:street'], tags['addr:city'], tags['addr:postcode']].filter(Boolean);
+            return parts.join(', ');
+        }
+
+        function distanceMiles(lat1, lon1, lat2, lon2) {
+            const toRad = function(value){ return value * Math.PI / 180; };
+            const radiusMiles = 3958.8;
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            return radiusMiles * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
         function renderAgents(agents, postcode) {
             const results = document.getElementById('agentResults');
             const status = getCoverage(postcode);
             const intro = status.covered
-                ? 'You are inside our active coverage. We can verify and match you directly.'
-                : 'Outside active coverage. We will use this postcode to prepare local match profiles before making an introduction.';
-            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div>' + agents.slice(0,3).map(function(agent, index) {
-                return '<div class="rounded-2xl bg-white border border-slate-100 p-4 shadow-sm">' +
+                ? 'You are inside our active coverage. These are live nearby agency listings; we can still verify and match you directly.'
+                : 'Outside active coverage. These are live nearby agency listings to help you start your search.';
+            if (!Array.isArray(agents) || agents.length === 0) {
+                results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div><div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">No estate agencies were found within roughly 7 miles from open map data. Try a full postcode or ask us to help manually.</div><a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
+                return;
+            }
+            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div>' + agents.map(function(agent, index) {
+                const distance = agent.distance ? agent.distance.toFixed(1) + ' miles away' : 'Nearby';
+                const websiteUrl = normaliseUrl(agent.website);
+                const website = websiteUrl ? '<a href="' + escapeHtml(websiteUrl) + '" target="_blank" class="text-teal-800 font-bold underline">Website</a>' : '';
+                const phone = agent.phone ? '<span>' + escapeHtml(agent.phone) + '</span>' : '';
+                const mapListing = agent.osmUrl ? '<a href="' + escapeHtml(agent.osmUrl) + '" target="_blank" class="text-teal-800 font-bold underline">Map listing</a>' : '';
+                const details = [escapeHtml(agent.address || ''), phone, website, mapListing].filter(Boolean).join('<span class="text-slate-300 px-2">|</span>');
+                return '<div class="agent-card rounded-2xl bg-white border border-slate-100 p-4 shadow-sm">' +
                     '<div class="flex items-start justify-between gap-4">' +
-                    '<div><p class="text-xs font-bold uppercase text-teal-700">Match ' + (index + 1) + ' - ' + agent.badge + '</p>' +
-                    '<h4 class="font-bold text-navy-950 mt-1">' + agent.name + '</h4>' +
-                    '<p class="text-sm text-slate-600 mt-2">' + agent.detail + '</p></div>' +
-                    '<div class="text-right"><span class="inline-flex bg-teal-50 text-teal-800 font-bold rounded-full px-3 py-1 text-sm">' + agent.score + '</span></div>' +
+                    '<div><p class="text-xs font-bold uppercase text-teal-700">Live result ' + (index + 1) + ' - ' + distance + '</p>' +
+                    '<h4 class="font-bold text-navy-950 mt-1">' + escapeHtml(agent.name) + '</h4>' +
+                    '<div class="text-sm text-slate-600 mt-2 leading-relaxed">' + details + '</div></div>' +
+                    '<div class="hidden sm:flex w-10 h-10 rounded-full bg-teal-50 items-center justify-center text-teal-800 font-bold">' + (index + 1) + '</div>' +
                     '</div></div>';
-            }).join('') + '<a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
+            }).join('') + '<p class="text-xs text-slate-400">Live listings are sourced from OpenStreetMap contributors where available. Performance ranking requires a connected property-data provider.</p><a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
+        }
+
+        function escapeHtml(value) {
+            return String(value || '').replace(/[&<>"']/g, function(char) {
+                return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#039;' })[char];
+            });
+        }
+
+        function normaliseUrl(value) {
+            if (!value) return '';
+            const url = String(value).trim();
+            return /^https?:\/\//i.test(url) ? url : 'https://' + url;
         }
 
         function getAreaProfile(postcode) {
             const status = getCoverage(postcode);
             if (status.covered && areaProfiles[status.region]) return areaProfiles[status.region];
-            if (status.region === 'Essex') return areaProfiles.Essex;
             return areaProfiles.Other;
         }
 
@@ -1157,6 +1330,97 @@ if (window.location.pathname.endsWith("index.html")) {
             document.querySelectorAll('.tool-tab').forEach(function(tab) {
                 tab.classList.toggle('active', tab === button);
             });
+            setTimeout(function() {
+                if (coverageMapInstance) coverageMapInstance.invalidateSize();
+                if (heroMapInstance) heroMapInstance.invalidateSize();
+            }, 80);
+        }
+
+        function showHeroTool(id, button) {
+            document.querySelectorAll('.hero-tool').forEach(function(panel) {
+                panel.classList.toggle('hidden', panel.id !== id);
+            });
+            document.querySelectorAll('.mini-tool-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab === button);
+            });
+        }
+
+        function heroCheckCoverage() {
+            const heroInput = document.getElementById('heroCoveragePostcode');
+            const postcode = (heroInput.value || '').trim().toUpperCase();
+            const result = document.getElementById('heroCoverageResult');
+            const coverageInput = document.getElementById('coveragePostcode');
+            if (coverageInput) coverageInput.value = postcode;
+            const status = getCoverage(postcode);
+            if (!postcodeArea(postcode)) {
+                result.textContent = 'Enter a full or partial UK postcode to check coverage.';
+                result.className = 'text-sm text-red-600 font-semibold';
+                return;
+            }
+            if (status.covered) {
+                result.textContent = postcode + ' is inside our ' + status.region + ' coverage.';
+                result.className = 'text-sm text-teal-700 font-semibold';
+                selectCoverage(status.region);
+            } else {
+                result.textContent = postcode + ' is outside direct coverage. Use Find agent to search nearby estate agencies.';
+                result.className = 'text-sm text-amber-700 font-semibold';
+                selectCoverage('London');
+            }
+        }
+
+        function heroSearchAgents() {
+            const heroInput = document.getElementById('heroAgentPostcode');
+            const postcode = (heroInput.value || document.getElementById('heroCoveragePostcode').value || '').trim().toUpperCase();
+            const agentInput = document.getElementById('agentPostcode');
+            if (agentInput) agentInput.value = postcode;
+            searchLocalAgents(postcode, true);
+        }
+
+        function heroQuickEstimate() {
+            const postcode = (document.getElementById('heroEstimatePostcode').value || document.getElementById('heroCoveragePostcode').value || '').trim().toUpperCase();
+            const beds = Number(document.getElementById('heroEstimateBeds').value || 3);
+            const estimate = calculateEstimatedValue({
+                postcode:postcode,
+                type:'terraced',
+                beds:beds,
+                condition:'standard',
+                area:0,
+                lastSoldPrice:0,
+                lastSoldYear:0
+            });
+            const result = document.getElementById('heroEstimateResult');
+            if (result) {
+                const low = estimate.estimate * .82;
+                const high = estimate.estimate * 1.18;
+                result.textContent = money(low) + ' - ' + money(high) + ' guide range';
+                result.className = 'text-sm text-teal-800 font-bold';
+            }
+            const fullPostcode = document.getElementById('estimatePostcode');
+            const fullBeds = document.getElementById('estimateBeds');
+            if (fullPostcode) fullPostcode.value = postcode;
+            if (fullBeds) fullBeds.value = beds;
+        }
+
+        function calculateEstimatedValue(options) {
+            const profile = getAreaProfile(options.postcode);
+            const typeMultiplier = { flat:.78, terraced:1, semi:1.16, detached:1.45 };
+            const conditionMultiplier = { 'needs-work':.91, standard:1, excellent:1.09 };
+            const bedMultiplier = Math.min(1.65, Math.max(.72, .72 + ((options.beds || 3) * .13)));
+            let estimate = profile.base * (typeMultiplier[options.type] || 1) * bedMultiplier * (conditionMultiplier[options.condition] || 1);
+            let detailScore = 2;
+
+            if (postcodeArea(options.postcode)) detailScore += 1;
+            if (options.area > 0) {
+                estimate = (estimate * .35) + (profile.pricePerSqm * options.area * (conditionMultiplier[options.condition] || 1) * .65);
+                detailScore += 2;
+            }
+            if (options.lastSoldPrice > 0 && options.lastSoldYear >= 1995) {
+                const years = Math.max(0, new Date().getFullYear() - options.lastSoldYear);
+                const indexed = options.lastSoldPrice * Math.pow(1 + profile.growth, years);
+                estimate = (estimate * .4) + (indexed * .6);
+                detailScore += 2;
+            }
+            return { estimate:estimate, profile:profile, detailScore:detailScore };
         }
 
         function estimatePropertyValue() {
@@ -1167,33 +1431,21 @@ if (window.location.pathname.endsWith("index.html")) {
             const area = Number(document.getElementById('estimateArea').value || 0);
             const lastSoldPrice = Number(document.getElementById('lastSoldPrice').value || 0);
             const lastSoldYear = Number(document.getElementById('lastSoldYear').value || 0);
-            const profile = getAreaProfile(postcode);
-            const typeMultiplier = { flat:.78, terraced:1, semi:1.16, detached:1.45 };
-            const conditionMultiplier = { 'needs-work':.91, standard:1, excellent:1.09 };
-            const bedMultiplier = Math.min(1.65, Math.max(.72, .72 + (beds * .13)));
-            let estimate = profile.base * (typeMultiplier[type] || 1) * bedMultiplier * (conditionMultiplier[condition] || 1);
-
-            if (area > 0) {
-                estimate = (estimate * .35) + (profile.pricePerSqm * area * (conditionMultiplier[condition] || 1) * .65);
-            }
-            if (lastSoldPrice > 0 && lastSoldYear >= 1995) {
-                const years = Math.max(0, new Date().getFullYear() - lastSoldYear);
-                const indexed = lastSoldPrice * Math.pow(1 + profile.growth, years);
-                estimate = (estimate * .4) + (indexed * .6);
-            }
-
-            renderEstimate(estimate, profile.label, 'Estimated from your property inputs. This is still only a guide and may not reflect the final market valuation.');
-            if (postcodeArea(postcode)) hydrateLandRegistryEstimate(postcode, estimate, profile.label);
+            const estimated = calculateEstimatedValue({ postcode:postcode, type:type, beds:beds, condition:condition, area:area, lastSoldPrice:lastSoldPrice, lastSoldYear:lastSoldYear });
+            renderEstimate(estimated.estimate, estimated.profile.label, 'Estimated from your property inputs. This is still only a guide and may not reflect the final market valuation.', estimated.detailScore);
+            if (postcodeArea(postcode)) hydrateLandRegistryEstimate(postcode, estimated.estimate, estimated.profile.label, estimated.detailScore);
         }
 
-        function renderEstimate(estimate, areaLabel, context) {
-            const low = estimate * .93;
-            const high = estimate * 1.08;
+        function renderEstimate(estimate, areaLabel, context, detailScore) {
+            const uncertainty = detailScore >= 5 ? .08 : detailScore >= 4 ? .12 : .18;
+            const low = estimate * (1 - uncertainty);
+            const high = estimate * (1 + uncertainty);
             document.getElementById('estimateResult').textContent = money(low) + ' - ' + money(high);
-            document.getElementById('estimateContext').textContent = context + ' Area basis: ' + areaLabel + '.';
+            const accuracy = detailScore >= 5 ? 'Higher-detail estimate.' : 'Lower-detail estimate - add more property information for a tighter range.';
+            document.getElementById('estimateContext').textContent = context + ' Area basis: ' + areaLabel + '. ' + accuracy;
         }
 
-        async function hydrateLandRegistryEstimate(postcode, currentEstimate, areaLabel) {
+        async function hydrateLandRegistryEstimate(postcode, currentEstimate, areaLabel, detailScore) {
             try {
                 const sales = await fetchLandRegistrySales(postcode);
                 if (!sales.length) return;
@@ -1201,7 +1453,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 const average = recent.reduce(function(total, sale){ return total + sale.price; }, 0) / recent.length;
                 if (!average || Number.isNaN(average)) return;
                 const blended = (currentEstimate * .65) + (average * .35);
-                renderEstimate(blended, areaLabel, 'Estimated from your inputs plus ' + recent.length + ' nearby sale record' + (recent.length === 1 ? '' : 's') + ' where available from HM Land Registry Price Paid Data. This is still only a guide and may not reflect the final market valuation.');
+                renderEstimate(blended, areaLabel, 'Estimated from your inputs plus ' + recent.length + ' nearby sale record' + (recent.length === 1 ? '' : 's') + ' where available from HM Land Registry Price Paid Data. This is still only a guide and may not reflect the final market valuation.', detailScore + 1);
             } catch (err) {
                 return;
             }
@@ -1292,8 +1544,13 @@ if (window.location.pathname.endsWith("index.html")) {
         });
 
         window.addEventListener('scroll', function() {
-            document.getElementById('navbar').classList.toggle('shadow-md', window.scrollY > 50);
-        });
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(function() {
+                document.getElementById('navbar').classList.toggle('shadow-md', window.scrollY > 50);
+                ticking = false;
+            });
+        }, { passive:true });
 
         document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
             anchor.addEventListener('click', function(e) {
@@ -1310,6 +1567,7 @@ if (window.location.pathname.endsWith("index.html")) {
         updateFormStep();
         calculateMortgage();
         calculateAgentFee();
+        initMaps();
         initRevealMotion();
         if (window.lucide) lucide.createIcons();
     </script>
