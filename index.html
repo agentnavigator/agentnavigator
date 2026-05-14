@@ -106,7 +106,7 @@ if (window.location.pathname.endsWith("index.html")) {
 
 
     <!-- Hero -->
-    <section id="valuation" class="relative pt-32 pb-16 lg:pt-36 lg:pb-24 overflow-hidden compass-bg">
+    <section id="valuation" class="relative pt-24 pb-12 lg:pt-32 lg:pb-20 overflow-hidden compass-bg">
         <div class="absolute inset-0 z-0 opacity-30">
             <div class="absolute top-20 right-0 w-96 h-96 bg-teal-100 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 w-72 h-72 bg-blue-100 rounded-full blur-3xl"></div>
@@ -122,37 +122,29 @@ if (window.location.pathname.endsWith("index.html")) {
                         Find the right estate agent to help sell your home.<br>
                         <span class="gradient-text">Get your free property valuation.</span>
                     </h1>
-                    <p class="text-xl text-slate-600 leading-relaxed max-w-xl">
+                    <p class="text-lg text-slate-600 leading-relaxed max-w-xl">
                         Tell us what you need, check whether we cover your area, or use the instant tools if you are just curious. No maze of decisions before you can get moving.
                     </p>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl">
-                        <a href="#valuation" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="home" class="w-5 h-5 text-teal-700 mb-3"></i>
-                            <span class="block text-sm font-bold text-navy-950">Get valued</span>
-                            <span class="text-xs text-slate-500">Start now</span>
-                        </a>
-                        <a href="#coverage" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="map" class="w-5 h-5 text-teal-700 mb-3"></i>
-                            <span class="block text-sm font-bold text-navy-950">Check area</span>
-                            <span class="text-xs text-slate-500">Map coverage</span>
-                        </a>
-                        <a href="#tools" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="calculator" class="w-5 h-5 text-teal-700 mb-3"></i>
-                            <span class="block text-sm font-bold text-navy-950">Estimate value</span>
-                            <span class="text-xs text-slate-500">Curious only</span>
-                        </a>
-                        <a href="#agent-search" class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="search" class="w-5 h-5 text-teal-700 mb-3"></i>
-                            <span class="block text-sm font-bold text-navy-950">Find agents</span>
-                            <span class="text-xs text-slate-500">By postcode</span>
-                        </a>
-                    </div>
-                    <div class="inline-flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-3 rounded-xl text-sm font-semibold">
-                        <i data-lucide="tag" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
-                        <span>Limited time: our matching service is currently <strong>free</strong> - standard fee of &pound;39 applies thereafter.</span>
+                    <div class="grid grid-cols-3 gap-3 max-w-2xl">
+                        <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">1. Tell us your needs</span>
+                        </div>
+                        <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">2. Get Verified</span>
+                        </div>
+                        <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
+                            <i data-lucide="calendar-check" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">3. Book Valuation</span>
+                        </div>
                     </div>
                 </div>
                 <div class="relative reveal">
+                    <div class="inline-flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800 px-5 py-3 rounded-xl text-sm font-semibold mb-4 w-full">
+                        <i data-lucide="tag" class="w-4 h-4 flex-shrink-0 mt-0.5"></i>
+                        <span>Limited time: our matching service is currently <strong>free</strong> - standard fee of &pound;39 applies thereafter.</span>
+                    </div>
                     <div class="hero-dashboard bg-white rounded-3xl premium-panel border border-slate-100 overflow-hidden">
                         <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between gap-4">
                             <div>
@@ -163,11 +155,10 @@ if (window.location.pathname.endsWith("index.html")) {
                                 <i data-lucide="message-circle" class="w-6 h-6 text-teal-700"></i>
                             </div>
                         </div>
-                        <div class="grid grid-cols-4 border-b border-slate-100">
+                        <div class="grid grid-cols-3 border-b border-slate-100">
                             <button type="button" class="mini-tool-tab active px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroValuationTool', this)">Valuation</button>
                             <button type="button" class="mini-tool-tab px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroCoverageTool', this)">Check area</button>
                             <button type="button" class="mini-tool-tab px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold border-r border-slate-100 text-slate-600" onclick="showHeroTool('heroAgentTool', this)">Find agent</button>
-                            <a href="#tools" class="px-2 sm:px-3 py-3 text-xs sm:text-sm font-bold text-slate-600 hover:text-teal-800 text-center">Estimate</a>
                         </div>
                         <div id="heroValuationTool" class="hero-tool p-5 sm:p-6">
                             <div class="flex items-center justify-between mb-5 gap-4">
@@ -175,7 +166,6 @@ if (window.location.pathname.endsWith("index.html")) {
                                     <p id="formStepLabel" class="text-xs font-bold uppercase text-teal-700 mb-2">Step 1 of 7</p>
                                     <h3 id="formTitle" class="font-serif text-2xl font-bold text-navy-950">Let's start with your name.</h3>
                                 </div>
-                                <a href="#tools" class="hidden sm:inline-flex text-xs font-bold text-teal-800 underline">See your property estimate</a>
                             </div>
                             <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6">
                                 <div id="formProgress" class="h-full bg-teal-800 rounded-full transition-all duration-300" style="width:14%;"></div>
@@ -285,16 +275,20 @@ if (window.location.pathname.endsWith("index.html")) {
                             <p id="heroCoverageResult" class="text-sm text-slate-600">London and Kent are highlighted on the map.</p>
                         </div>
                         <div id="heroAgentTool" class="hero-tool hidden p-5 sm:p-6 space-y-4 bg-slate-50">
-                            <div class="relative rounded-2xl border border-slate-100 bg-white overflow-hidden h-72">
+                            <div id="heroAgentContainer" class="relative rounded-2xl border border-slate-100 bg-white overflow-hidden h-72">
                                 <div id="heroAgentMap" class="hero-map"></div>
+                                <div id="heroAgentResultsList" class="hidden h-full overflow-y-auto p-4 space-y-3 bg-white"></div>
                             </div>
                             <label class="block text-xs font-bold uppercase text-slate-500">Find estate agents nearby</label>
                             <div class="flex gap-2">
                                 <input id="heroAgentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white">
-                                <button type="button" onclick="heroSearchAgents()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Search</button>
+                                <button type="button" onclick="executeHeroAgentSearch()" class="bg-teal-800 hover:bg-teal-900 text-white font-bold rounded-xl px-4">Search</button>
                             </div>
-                            <p class="text-sm text-slate-600">Live results appear in the Local Agent Finder below.</p>
+                            <p class="text-sm text-slate-600">Live results will appear directly in the box above.</p>
                         </div>
+                    </div>
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-slate-600">Just curious? Want to get a free rough estimate of what your home could be worth? <a href="#tools" class="text-teal-800 font-bold underline">Use our free online calculator here</a>.</p>
                     </div>
                 </div>
             </div>
@@ -339,14 +333,19 @@ if (window.location.pathname.endsWith("index.html")) {
                     <div id="agent-search" class="bg-slate-50 rounded-3xl border border-slate-100 p-6 md:p-8">
                         <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Local Agent Finder</h3>
                         <p class="text-slate-600 text-sm mb-5">Search a postcode to see estate agencies listed nearby using live open map data where available.</p>
-                        <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex flex-col gap-3">
                             <input id="agentPostcode" type="text" placeholder="Postcode" class="uppercase flex-1 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 text-sm transition-all bg-white">
-                            <button type="button" onclick="searchLocalAgents()" class="bg-teal-800 hover:bg-teal-900 text-white rounded-xl px-5 py-3 flex items-center justify-center gap-2 font-bold" aria-label="Search local agents">
-                                <i data-lucide="search" class="w-5 h-5"></i>
-                                Search
-                            </button>
+                            <div class="flex gap-2">
+                                <select id="agentStatusFilter" class="flex-1 border border-slate-200 rounded-xl px-3 py-3 text-xs bg-white" onchange="searchLocalAgents()">
+                                    <option value="all">All Agents</option>
+                                    <option value="verified">Verified Partners Only</option>
+                                </select>
+                                <button type="button" onclick="searchLocalAgents()" class="bg-teal-800 hover:bg-teal-900 text-white rounded-xl px-5 py-3 flex items-center justify-center gap-2 font-bold" aria-label="Search local agents">
+                                    <i data-lucide="search" class="w-5 h-5"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div id="agentResults" class="mt-5 space-y-3"></div>
+                        <div id="agentResults" class="mt-5 space-y-3 max-h-[400px] overflow-y-auto pr-2"></div>
                     </div>
                 </div>
             </div>
@@ -365,6 +364,7 @@ if (window.location.pathname.endsWith("index.html")) {
                     <button type="button" class="tool-tab active flex-1 px-6 py-4 border-b md:border-b-0 md:border-r border-slate-100 font-bold text-slate-600 transition-colors" onclick="showTool('valuationTool', this)">Property Estimate</button>
                     <button type="button" class="tool-tab flex-1 px-6 py-4 border-b md:border-b-0 md:border-r border-slate-100 font-bold text-slate-600 transition-colors" onclick="showTool('mortgageTool', this)">Mortgage Calculator</button>
                     <button type="button" class="tool-tab flex-1 px-6 py-4 font-bold text-slate-600 transition-colors" onclick="showTool('feeTool', this)">Agent Fee Calculator</button>
+                    <button type="button" class="tool-tab flex-1 px-6 py-4 font-bold text-slate-600 transition-colors" onclick="showTool('sdltTool', this)">Stamp Duty</button>
                 </div>
 
                 <div id="valuationTool" class="tool-panel p-6 md:p-10">
@@ -478,45 +478,86 @@ if (window.location.pathname.endsWith("index.html")) {
                         </div>
                     </div>
                 </div>
+
+                <div id="sdltTool" class="tool-panel hidden p-6 md:p-10">
+                    <div class="grid lg:grid-cols-5 gap-8">
+                        <div class="lg:col-span-3 space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Purchase price</label>
+                                <input id="sdltPrice" type="number" value="450000" class="w-full border border-slate-200 rounded-xl px-4 py-3">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Buyer status</label>
+                                <select id="sdltStatus" class="w-full border border-slate-200 rounded-xl px-4 py-3 bg-white">
+                                    <option value="standard">Moving home (standard)</option>
+                                    <option value="first">First-time buyer</option>
+                                    <option value="additional">Additional property / Buy-to-let</option>
+                                </select>
+                            </div>
+                            <button type="button" onclick="calculateStampDuty()" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-6 py-3 rounded-xl transition-colors">Calculate SDLT</button>
+                        </div>
+                        <div class="lg:col-span-2 bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                            <p class="text-sm font-semibold text-teal-800 mb-2">Estimated Stamp Duty (SDLT)</p>
+                            <div id="sdltResult" class="font-serif text-3xl font-bold text-navy-950 mb-4">&pound;10,000</div>
+                            <p class="text-sm text-slate-600">Calculated based on current UK residential rates for England &amp; NI.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-24 bg-white">
+    <!-- Guides & News -->
+    <section id="news" class="py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
-                <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">How It Works</h2>
-                <p class="text-lg text-slate-600">Three simple steps to get from interest to a booked valuation.</p>
+            <div class="flex items-end justify-between mb-12 reveal">
+                <div class="max-w-2xl">
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Guides &amp; News</h2>
+                    <p class="text-lg text-slate-600">Updates and insights from the London &amp; Kent real estate market.</p>
+                </div>
+                <a href="#" class="text-slate-400 font-bold text-sm hover:text-teal-800 transition-colors hidden sm:block">See all articles</a>
             </div>
-            <div class="relative reveal">
-                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 step-line -translate-y-1/2"></div>
-                <div class="grid md:grid-cols-3 gap-8 relative">
-                    <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
-                            <i data-lucide="message-circle" class="w-6 h-6"></i>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Tell Us What You Need</h3>
-                            <p class="text-slate-600 leading-relaxed">Answer a few short questions and choose when you want us to reach out.</p>
-                        </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group cursor-pointer reveal">
+                    <div class="relative aspect-[4/3] rounded-3xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80" alt="London Houses" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                     </div>
-                    <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
-                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-xs font-bold text-teal-700 uppercase">
+                            <span>Market Guide</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                            <span>5 min read</span>
                         </div>
-                        <div class="text-center">
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Get Verified</h3>
-                            <p class="text-slate-600 leading-relaxed">We confirm ownership securely before passing your enquiry to a local agent.</p>
-                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-navy-950 group-hover:text-teal-800 transition-colors">The Best Time of Year to Sell Your Home in London</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">Spring vs autumn market, how school calendars affect buyer behaviour, and why December might be better than you think.</p>
                     </div>
-                    <div class="relative bg-white rounded-2xl p-8 shadow-lg border border-slate-100 hover:shadow-xl transition-shadow">
-                        <div class="w-16 h-16 bg-teal-700 rounded-full flex items-center justify-center text-white mb-6 mx-auto relative z-10 ring-8 ring-white">
-                            <i data-lucide="calendar-check" class="w-6 h-6"></i>
+                </div>
+                <div class="group cursor-pointer reveal">
+                    <div class="relative aspect-[4/3] rounded-3xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80" alt="Real Estate Valuation" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-xs font-bold text-teal-700 uppercase">
+                            <span>Insider Secrets</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                            <span>7 min read</span>
                         </div>
-                        <div class="text-center">
-                            <h3 class="font-serif text-2xl font-bold text-navy-950 mb-3">Book Your Valuation</h3>
-                            <p class="text-slate-600 leading-relaxed">Your matched agent arranges a free, no-obligation valuation at a time that suits you.</p>
+                        <h3 class="font-serif text-2xl font-bold text-navy-950 group-hover:text-teal-800 transition-colors">What Estate Agents Won't Always Tell You About Valuations</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">Provocative and useful: how to spot overvaluation designed to win instructions and why second opinions matter.</p>
+                    </div>
+                </div>
+                <div class="group cursor-pointer reveal">
+                    <div class="relative aspect-[4/3] rounded-3xl overflow-hidden mb-5">
+                        <img src="https://images.unsplash.com/photo-1449156001935-d2863fb72690?auto=format&fit=crop&w=800&q=80" alt="Kent Property" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-xs font-bold text-teal-700 uppercase">
+                            <span>Market Update</span>
+                            <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                            <span>4 min read</span>
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-navy-950 group-hover:text-teal-800 transition-colors">London &amp; Kent Property Market Update — Spring 2026</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">Average prices, transaction volumes, and mortgage rate impacts across our core coverage areas this season.</p>
                         </div>
                     </div>
                 </div>
@@ -778,7 +819,7 @@ if (window.location.pathname.endsWith("index.html")) {
                         <li><a href="#valuation" class="hover:text-teal-400 transition-colors">Get Valuation</a></li>
                         <li><a href="#coverage" class="hover:text-teal-400 transition-colors">Check Coverage</a></li>
                         <li><a href="#tools" class="hover:text-teal-400 transition-colors">Calculators</a></li>
-                        <li><a href="#how-it-works" class="hover:text-teal-400 transition-colors">How It Works</a></li>
+                        <li><a href="#news" class="hover:text-teal-400 transition-colors">Guides &amp; News</a></li>
                     </ul>
                 </div>
                 <div>
@@ -826,6 +867,7 @@ if (window.location.pathname.endsWith("index.html")) {
         const kentBoundary = [[51.482,0.159],[51.485,0.480],[51.446,0.740],[51.414,0.982],[51.380,1.210],[51.300,1.430],[51.180,1.420],[51.090,1.260],[50.955,1.030],[50.910,0.760],[50.975,0.520],[51.060,0.240],[51.185,0.050],[51.330,0.020]];
         let heroMapInstance;
         let coverageMapInstance;
+        let heroAgentMapInstance; // Declare heroAgentMapInstance
         let coverageLayerRefs = {};
         let ticking = false;
         let currentStep = 0;
@@ -1035,10 +1077,11 @@ if (window.location.pathname.endsWith("index.html")) {
             }
 
             heroMapInstance = createCoverageMap('heroMap', { zoomControl:false, attributionControl:false, compact:true });
-            createCoverageMap('heroAgentMap', { zoomControl:false, attributionControl:false, compact:true });
+            heroAgentMapInstance = createCoverageMap('heroAgentMap', { zoomControl:false, attributionControl:false, compact:true }); // Assign to heroAgentMapInstance
             coverageMapInstance = createCoverageMap('coverageMap', { zoomControl:true, attributionControl:true, compact:false });
             setTimeout(function() {
                 if (heroMapInstance) heroMapInstance.invalidateSize();
+                if (heroAgentMapInstance) heroAgentMapInstance.invalidateSize(); // Invalidate heroAgentMapInstance
                 if (coverageMapInstance) coverageMapInstance.invalidateSize();
             }, 250);
         }
@@ -1047,17 +1090,21 @@ if (window.location.pathname.endsWith("index.html")) {
             const el = document.getElementById(id);
             if (!el) return null;
             const map = L.map(id, {
+                zoomControl:false,
                 scrollWheelZoom:false,
-                zoomControl:options.zoomControl,
                 attributionControl:options.attributionControl,
                 dragging:true,
-                tap:true
+                tap:L.Browser.safari && L.Browser.mobile
             }).setView([51.32, 0.34], options.compact ? 8 : 8);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom:18,
                 attribution:'&copy; OpenStreetMap contributors'
             }).addTo(map);
+
+            if (options.zoomControl) {
+                L.control.zoom({ position:'bottomright' }).addTo(map);
+            }
 
             const london = L.polygon(londonBoundary, {
                 color:'#075985',
@@ -1127,17 +1174,29 @@ if (window.location.pathname.endsWith("index.html")) {
             }
         }
 
-        async function searchLocalAgents(postcodeOverride, shouldScroll) {
+        async function executeHeroAgentSearch() {
+            const postcode = document.getElementById('heroAgentPostcode').value.trim().toUpperCase();
+            if (!postcodeArea(postcode)) return;
+            
+            const mapDiv = document.getElementById('heroAgentMap');
+            const listDiv = document.getElementById('heroAgentResultsList');
+            mapDiv.classList.add('hidden');
+            listDiv.classList.remove('hidden');
+            searchLocalAgents(postcode, false, 'heroAgentResultsList', 'all'); // Pass 'all' as default filter for hero section
+        }
+
+        async function searchLocalAgents(postcodeOverride, shouldScroll, targetId, statusFilterValue) { // Add statusFilterValue parameter
             const input = document.getElementById('agentPostcode');
-            const results = document.getElementById('agentResults');
+            const results = document.getElementById(targetId || 'agentResults');
             const postcode = String(postcodeOverride || input.value || '').trim().toUpperCase();
             if (input && postcodeOverride) input.value = postcode;
             if (!postcodeArea(postcode)) {
                 results.innerHTML = '<div class="rounded-2xl bg-red-50 border border-red-100 p-4 text-sm text-red-700">Enter a valid postcode to search local agents.</div>';
                 return;
             }
-            if (shouldScroll !== false) {
-                document.getElementById('agent-search').scrollIntoView({ behavior:'smooth', block:'start' });
+            if (shouldScroll) { // Only scroll if shouldScroll is explicitly true
+                const section = document.getElementById('agent-search');
+                if (section) section.scrollIntoView({ behavior:'smooth', block:'start' });
             }
             results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">Searching live estate agency data near ' + escapeHtml(postcode) + '...</div>';
 
@@ -1151,7 +1210,7 @@ if (window.location.pathname.endsWith("index.html")) {
                     const coordinates = await geocodePostcode(postcode);
                     agents = await fetchOpenStreetMapAgents(coordinates, postcode);
                 }
-                renderAgents(agents, postcode);
+                renderAgents(agents, postcode, targetId || 'agentResults', statusFilterValue); // Pass statusFilterValue
             } catch (err) {
                 results.innerHTML = '<div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800"><strong>Live agent data could not be loaded just now.</strong><br>Try a full postcode, or use the valuation form and we will manually help you find a strong local agent.</div>';
             }
@@ -1229,8 +1288,20 @@ if (window.location.pathname.endsWith("index.html")) {
             return radiusMiles * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
-        function renderAgents(agents, postcode) {
-            const results = document.getElementById('agentResults');
+        function renderAgents(agents, postcode, targetId, statusFilterValue) { // Add statusFilterValue parameter
+            const results = document.getElementById(targetId || 'agentResults');
+            const isHero = targetId === 'heroAgentResultsList';
+            
+            const statusFilter = statusFilterValue || 'all'; // Use the passed statusFilterValue
+            let filtered = agents;
+            if (statusFilter === 'verified') {
+                 // Mock filter for demonstration
+                 filtered = agents.slice(0, 2); 
+            }
+
+            const limit = isHero ? 3 : 6;
+            const displayed = filtered.slice(0, limit);
+
             const status = getCoverage(postcode);
             const intro = status.covered
                 ? 'You are inside our active coverage. These are live nearby agency listings; we can still verify and match you directly.'
@@ -1239,7 +1310,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div><div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">No estate agencies were found within roughly 7 miles from open map data. Try a full postcode or ask us to help manually.</div><a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
                 return;
             }
-            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div>' + agents.map(function(agent, index) {
+            results.innerHTML = '<div class="rounded-2xl bg-white border border-slate-100 p-4 text-sm text-slate-600">' + intro + '</div>' + displayed.map(function(agent, index) { // Removed the extra div here, it was already wrapped
                 const distance = agent.distance ? agent.distance.toFixed(1) + ' miles away' : 'Nearby';
                 const websiteUrl = normaliseUrl(agent.website);
                 const website = websiteUrl ? '<a href="' + escapeHtml(websiteUrl) + '" target="_blank" class="text-teal-800 font-bold underline">Website</a>' : '';
@@ -1253,7 +1324,7 @@ if (window.location.pathname.endsWith("index.html")) {
                     '<div class="text-sm text-slate-600 mt-2 leading-relaxed">' + details + '</div></div>' +
                     '<div class="hidden sm:flex w-10 h-10 rounded-full bg-teal-50 items-center justify-center text-teal-800 font-bold">' + (index + 1) + '</div>' +
                     '</div></div>';
-            }).join('') + '<p class="text-xs text-slate-400">Live listings are sourced from OpenStreetMap contributors where available. Performance ranking requires a connected property-data provider.</p><a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>';
+            }).join('') + (isHero ? '' : '<p class="text-xs text-slate-400">Live listings are sourced from OpenStreetMap contributors. Performance ranking requires a connected provider.</p><a href="#valuation" class="inline-flex items-center justify-center w-full bg-teal-800 hover:bg-teal-900 text-white font-bold px-5 py-3 rounded-xl transition-colors">Ask us to match you</a>'); // Removed extra div
         }
 
         function escapeHtml(value) {
@@ -1322,14 +1393,6 @@ if (window.location.pathname.endsWith("index.html")) {
                 result.className = 'text-sm text-amber-700 font-semibold';
                 selectCoverage('London');
             }
-        }
-
-        function heroSearchAgents() {
-            const heroInput = document.getElementById('heroAgentPostcode');
-            const postcode = (heroInput.value || document.getElementById('heroCoveragePostcode').value || '').trim().toUpperCase();
-            const agentInput = document.getElementById('agentPostcode');
-            if (agentInput) agentInput.value = postcode;
-            searchLocalAgents(postcode, true);
         }
 
         function calculateEstimatedValue(options) {
@@ -1442,6 +1505,57 @@ if (window.location.pathname.endsWith("index.html")) {
             document.getElementById('feeContext').textContent = 'Based on a ' + percent.toFixed(2) + '% fee' + (includeVat ? ' plus VAT.' : ' without VAT.');
         }
 
+        function calculateStampDuty() {
+            const price = Number(document.getElementById('sdltPrice').value || 0);
+            const status = document.getElementById('sdltStatus').value;
+            let tax = 0;
+
+            // Define standard bands for England & NI
+            const standardBands = [
+                { limit: 250000, rate: 0 },
+                { limit: 925000, rate: 0.05 },
+                { limit: 1500000, rate: 0.10 },
+                { limit: Infinity, rate: 0.12 }
+            ];
+
+            // Define first-time buyer bands (up to £625k)
+            const ftbBands = [
+                { limit: 425000, rate: 0 }, // No SDLT up to £425k
+                { limit: 625000, rate: 0.05 } // 5% on portion between £425k and £625k
+            ];
+
+            let bandsToApply = standardBands;
+
+            // Apply first-time buyer relief if applicable and within price limit
+            if (status === 'first' && price <= 625000) {
+                bandsToApply = ftbBands;
+            }
+            // If FTB and price > £625k, standard rates apply, so bandsToApply remains standardBands.
+
+            let taxablePrice = price;
+            let currentBandLimit = 0;
+
+            for (let i = 0; i < bandsToApply.length; i++) {
+                const band = bandsToApply[i];
+                if (taxablePrice <= currentBandLimit) break; // No more price to tax
+
+                const portionInBand = Math.min(taxablePrice, band.limit) - currentBandLimit;
+                if (portionInBand > 0) {
+                    tax += portionInBand * band.rate;
+                }
+                currentBandLimit = band.limit;
+            }
+
+            // Add additional property surcharge if applicable (for properties £40k or more)
+            if (status === 'additional' && price >= 40000) {
+                tax += (price * 0.03);
+            }
+
+            // Ensure tax is not negative
+            tax = Math.max(0, tax);
+
+            document.getElementById('sdltResult').textContent = money(tax);
+        }
         function toggleFaq(button) {
             const panel = button.nextElementSibling;
             const icon = button.querySelector('[data-lucide="chevron-down"]');
