@@ -170,7 +170,7 @@ if (window.location.pathname.endsWith("index.html")) {
                             <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-6">
                                 <div id="formProgress" class="h-full bg-teal-800 rounded-full transition-all duration-300" style="width:14%;"></div>
                             </div>
-                            <form id="leadForm" onsubmit="handleSubmit(event)" class="space-y-5">
+                            <form action="https://api.web3forms.com/submit" method="POST">
                                 <input type="hidden" name="access_key" value="c3e25924-a195-4c5f-ac8f-92f236189982">
                                 <input type="hidden" name="subject" value="New Homeowner Enquiry - Agent Navigator">
                                 <input type="hidden" name="from_name" value="Agent Navigator Website">
