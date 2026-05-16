@@ -80,7 +80,7 @@ if (window.location.pathname.endsWith("index.html")) {
                 <div class="hidden lg:flex items-center gap-3">
                     <a href="#valuation" class="nav-action text-slate-600 font-semibold text-sm">Get Valuation</a>
                     <a href="#coverage" class="nav-action text-slate-600 font-semibold text-sm">Check Coverage</a>
-                    <a href="#tools" class="nav-action text-slate-600 font-semibold text-sm">Estimate Value</a>
+                    <a href="#tools" class="nav-action text-slate-600 font-semibold text-sm">Property Calculator</a>
                     <a href="#agent-search" class="nav-action text-slate-600 font-semibold text-sm">Find Agents</a>
                     <a href="#faq" class="nav-action text-slate-600 font-semibold text-sm">FAQ</a>
                     <a href="agents.html" class="text-teal-800 font-semibold text-sm px-2">For Estate Agents</a>
@@ -95,7 +95,7 @@ if (window.location.pathname.endsWith("index.html")) {
             <div class="px-4 py-4 space-y-3">
                 <a href="#valuation" class="block text-slate-600 font-medium py-2">Get Valuation</a>
                 <a href="#coverage" class="block text-slate-600 font-medium py-2">Check Coverage</a>
-                <a href="#tools" class="block text-slate-600 font-medium py-2">Estimate Value</a>
+                <a href="#tools" class="block text-slate-600 font-medium py-2">Property Calculator</a>
                 <a href="#agent-search" class="block text-slate-600 font-medium py-2">Find Agents</a>
                 <a href="#faq" class="block text-slate-600 font-medium py-2">FAQ</a>
                 <a href="agents.html" class="block text-teal-800 font-semibold py-2">For Estate Agents</a>
@@ -127,16 +127,16 @@ if (window.location.pathname.endsWith("index.html")) {
                     </p>
                     <div class="grid grid-cols-3 gap-3 max-w-2xl">
                         <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="message-circle" class="w-5 h-5 text-teal-700 mb-2"></i>
-                            <span class="block text-xs font-bold text-navy-950">1. Tell us your needs</span>
+                            <i data-lucide="clock" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">Save time</span>
                         </div>
                         <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="shield-check" class="w-5 h-5 text-teal-700 mb-2"></i>
-                            <span class="block text-xs font-bold text-navy-950">2. Get Verified</span>
+                            <i data-lucide="pin" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">Local focus</span>
                         </div>
                         <div class="quick-tile bg-white border border-slate-200 rounded-2xl p-4 text-left">
-                            <i data-lucide="calendar-check" class="w-5 h-5 text-teal-700 mb-2"></i>
-                            <span class="block text-xs font-bold text-navy-950">3. Book Valuation</span>
+                            <i data-lucide="shield" class="w-5 h-5 text-teal-700 mb-2"></i>
+                            <span class="block text-xs font-bold text-navy-950">No obligation</span>
                         </div>
                     </div>
                 </div>
@@ -565,43 +565,72 @@ if (window.location.pathname.endsWith("index.html")) {
         </div>
     </section>
 
-    <!-- Benefits -->
-    <section id="benefits" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="reveal">
-                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">Sell Your Home With Confidence</h2>
-                    <p class="text-lg text-slate-600 mb-8">Agent Navigator is built to reduce the noise around choosing an estate agent. The verification process is the trust signal: real homeowners, real property, better introductions.</p>
-                    <a href="#valuation" class="inline-flex items-center bg-teal-800 hover:bg-teal-900 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-lg hover:shadow-xl">
-                        Start My Valuation
-                        <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
-                    </a>
+   <!-- How It Works -->
+<section id="how-it-works" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold text-navy-950 mb-4">How It Works</h2>
+            <p class="text-lg text-slate-600">Three simple steps from your first enquiry to your free property valuation.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 relative">
+            <!-- Connector line (desktop only) -->
+            <div class="hidden md:block absolute top-10 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-teal-200 via-teal-500 to-teal-200 -translate-y-1/2" style="top: 44px;"></div>
+
+            <!-- Step 1 -->
+            <div class="relative bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow reveal reveal-delay-1">
+                <div class="w-12 h-12 bg-teal-800 text-white rounded-full flex items-center justify-center font-serif text-xl font-bold mb-6 mx-auto ring-8 ring-slate-50 relative z-10">1</div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="clipboard-list" class="w-6 h-6 text-teal-700"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-bold text-navy-950 mb-3">Fill In Your Details</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Complete our short form — just your name, number, email and preferred contact method. Takes less than a minute and there's no obligation at this stage.</p>
                 </div>
-                <div class="grid sm:grid-cols-2 gap-4 reveal">
-                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                        <i data-lucide="clock" class="w-7 h-7 text-teal-700 mb-4"></i>
-                        <h3 class="font-bold text-xl text-navy-950 mb-2">Save Time</h3>
-                        <p class="text-slate-600 text-sm">No cold calls or agent comparison spreadsheets before you know who is worth speaking to.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="relative bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow reveal reveal-delay-2">
+                <div class="w-12 h-12 bg-teal-800 text-white rounded-full flex items-center justify-center font-serif text-xl font-bold mb-6 mx-auto ring-8 ring-slate-50 relative z-10">2</div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shield-check" class="w-6 h-6 text-teal-700"></i>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                        <i data-lucide="award" class="w-7 h-7 text-teal-700 mb-4"></i>
-                        <h3 class="font-bold text-xl text-navy-950 mb-2">Local Focus</h3>
-                        <p class="text-slate-600 text-sm">Matches are based on area knowledge and relevant seller needs.</p>
+                    <h3 class="font-serif text-xl font-bold text-navy-950 mb-3">Verify Your Property</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">We'll ask you to securely upload a photo ID, proof of address, and a Land Registry or mortgage document. This protects you and ensures agents only receive genuine, qualified leads.</p>
+                    <div class="mt-4 flex flex-wrap justify-center gap-2">
+                        <span class="text-xs bg-teal-50 text-teal-700 font-medium px-3 py-1 rounded-full border border-teal-100">Photo ID</span>
+                        <span class="text-xs bg-teal-50 text-teal-700 font-medium px-3 py-1 rounded-full border border-teal-100">Proof of Address</span>
+                        <span class="text-xs bg-teal-50 text-teal-700 font-medium px-3 py-1 rounded-full border border-teal-100">Land Registry</span>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                        <i data-lucide="shield-check" class="w-7 h-7 text-teal-700 mb-4"></i>
-                        <h3 class="font-bold text-xl text-navy-950 mb-2">Verified First</h3>
-                        <p class="text-slate-600 text-sm">Agents receive legitimate homeowner introductions, so the follow-up is more focused.</p>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="relative bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow reveal reveal-delay-3">
+                <div class="w-12 h-12 bg-teal-800 text-white rounded-full flex items-center justify-center font-serif text-xl font-bold mb-6 mx-auto ring-8 ring-slate-50 relative z-10">3</div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-teal-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="calendar-check" class="w-6 h-6 text-teal-700"></i>
                     </div>
-                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-                        <i data-lucide="shield" class="w-7 h-7 text-teal-700 mb-4"></i>
-                        <h3 class="font-bold text-xl text-navy-950 mb-2">No Obligation</h3>
-                        <p class="text-slate-600 text-sm">You decide whether the recommended agent is right for your sale.</p>
+                    <h3 class="font-serif text-xl font-bold text-navy-950 mb-3">Get Matched &amp; Book</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">Once verified, we match you with the best local estate agent for your property and area. They'll arrange your free, no-obligation valuation at a time that suits you.</p>
+                    <div class="mt-4">
+                        <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-3 py-1 rounded-full border border-amber-100">Free &amp; No Obligation</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="text-center mt-12 reveal">
+            <a href="#valuation" class="inline-flex items-center bg-teal-800 hover:bg-teal-900 text-white font-bold px-8 py-4 rounded-full transition-colors shadow-lg hover:shadow-xl">
+                Get Started Now
+                <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+            </a>
+            <p class="text-sm text-slate-400 mt-3">Takes less than a minute &nbsp;•&nbsp; No obligation &nbsp;•&nbsp; Currently free</p>
+        </div>
+    </div>
+</section>
 
     <!-- Success Modal -->
     <div id="successModal" onclick="closeSuccessModal()" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;padding:1rem;">
