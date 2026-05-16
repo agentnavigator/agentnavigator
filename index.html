@@ -246,12 +246,12 @@ if (window.location.pathname.endsWith("index.html")) {
 
                                 <p id="formError" class="text-red-500 text-sm hidden">Please complete this step before continuing.</p>
                                 <div class="flex flex-col sm:flex-row gap-3 pt-1">
+									<div class="h-captcha" data-sitekey="c3e25924-a195-4c5f-ac8f-92f236189982"></div>
                                     <button type="button" id="backBtn" onclick="changeStep(-1)" class="hidden sm:w-auto justify-center bg-white text-slate-700 border border-slate-200 hover:border-teal-600 font-bold px-6 py-4 rounded-xl transition-all">Back</button>
                                     <button type="button" id="nextBtn" onclick="changeStep(1)" class="w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                                         Continue
                                         <i data-lucide="arrow-right" class="w-5 h-5"></i>
 										<div class="flex justify-center my-4">
-    									<div class="h-captcha" data-sitekey="c3e25924-a195-4c5f-ac8f-92f236189982"></div>
 										</div>
                                     </button>
                                     <button type="submit" id="submitBtn" class="hidden w-full bg-teal-800 hover:bg-teal-900 text-white font-bold text-lg py-4 px-8 rounded-xl transition-all transform hover:scale-[1.01] shadow-lg hover:shadow-xl items-center justify-center gap-2">
